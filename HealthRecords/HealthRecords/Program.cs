@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace HealthRecords
 {
@@ -13,10 +12,17 @@ namespace HealthRecords
     [STAThread]
     static void Main()
     {
-
-      Application.EnableVisualStyles();
-      Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new OverviewForm());
+        switch (Properties.Settings.Default.UI)
+        {
+            case "GUI":
+                GUI newGUI = new GUI();
+                break;
+            case "TUI":
+                TUI newTUI = new TUI();
+                break;
+            default:
+                throw new Exception("Es konnte kein Benutzerschnittstelle gefunden werden.");                
+        }
 
     }
   }

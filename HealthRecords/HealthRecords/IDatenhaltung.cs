@@ -7,16 +7,16 @@ namespace HealthRecords
 {
   interface IDatenhaltung
   {
-    public Patient[] GetPatientsData();
-    public Illness[] GetIllnessesData();
-    public Patient GetPatientData();
-    public Illness GetIllnessData();
-    public Boolean CreatePatientData(Patient patient);
-    public Boolean CreateIllnessData(Illness illness);
-    public Boolean UpdatePatientData(Patient patient);
-    public Boolean UpdateIllnessData(Illness illness);
-    public Boolean LinkPatientIllnessData(Patient patient, Illness illness);
-    public Boolean DeletePatientData(Patient patient);
-    public Boolean DeleteIllnessData(Illness illness);
+     Patient[] GetPatientsData();
+     Illness[] GetIllnessesData();
+     Patient GetPatientData();
+     Illness GetIllnessData();
+     Boolean CreatePatientData(Patient patient);
+     Boolean CreateIllnessData(Illness illness);
+     Boolean UpdatePatientData(Patient patient);
+     Boolean UpdateIllnessData(Illness illness);
+     Boolean LinkPatientIllnessData(Patient patient, Illness illness);
+     Boolean DeletePatientData(Patient patient);
+     Boolean DeleteIllnessData(Illness illness);
   }
 }
