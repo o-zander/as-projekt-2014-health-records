@@ -15,6 +15,11 @@ namespace HealthRecords
             Application.Run(new OverviewForm());
         }
 
-        
+        public GUI(Fachkonzept fachkonzept)
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new OverviewForm());
+        }        
     }
 }
