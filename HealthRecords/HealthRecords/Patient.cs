@@ -6,7 +6,7 @@ using System.Text;
 namespace HealthRecords
 {
   class Patient
-  {
+  {    
     public int PatientID { get; set; }
     public String FirstName { get; set; }
     public String LastName { get; set; }

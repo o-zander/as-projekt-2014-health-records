@@ -12,5 +12,11 @@ namespace HealthRecords
             System.Console.WriteLine("Hallo TUI");
             System.Console.ReadLine();
         }
+
+        public TUI(Fachkonzept fachkonzept)
+        {
+            System.Console.WriteLine("Fachkonzept ist da!");
+            System.Console.ReadLine();
+        }
     }
 }
