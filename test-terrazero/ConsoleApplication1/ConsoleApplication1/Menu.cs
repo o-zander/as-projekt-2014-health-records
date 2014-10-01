@@ -9,6 +9,8 @@ namespace ConsoleApplication1
     class Menu
     {
 
+        private static String menu  = "root";
+
         private static int Start = (int)'A';
 
         public static char GetChar(int number)
@@ -21,10 +23,11 @@ namespace ConsoleApplication1
             return (int)item - Menu.Start;
         }
 
-        public static bool MenuCommand(ConIO command)
-        {
-            return false;
-        }
+        
+
+        
+
+        
 
     }
 }

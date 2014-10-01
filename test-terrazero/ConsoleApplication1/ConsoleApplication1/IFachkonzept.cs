@@ -9,8 +9,10 @@ namespace ConsoleApplication1
     interface IFachkonzept
     {
 
-        Patient[] GetPatients(int pager);
-        Illness[] GetIllnesses(int pager);
+        Patient[] GetPatients();
+        Illness[] GetIllnesses();
+        Patient[] GetPatients(int pager, int number);
+        Illness[] GetIllnesses(int pager, int number);
         Patient GetPatient(int id);
         Illness GetIllness(int id);
         Boolean CreatePatient(Patient patient);

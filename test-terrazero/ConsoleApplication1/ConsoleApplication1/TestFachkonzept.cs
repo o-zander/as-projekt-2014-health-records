@@ -9,7 +9,12 @@ namespace ConsoleApplication1
     class TestFachkonzept : IFachkonzept
     {
 
-        public Patient[] GetPatients(int pager)
+        public Patient[] GetPatients()
+        {
+            return this.GetPatients(0, 20);
+        }
+
+        public Patient[] GetPatients(int pager, int number)
         {
             Patient[] patients = new Patient[5];
             for (int i = 0; i < patients.Length; i++)
@@ -20,7 +25,12 @@ namespace ConsoleApplication1
             return patients;
         }
 
-        public Illness[] GetIllnesses(int pager)
+        public Illness[] GetIllnesses()
+        {
+            return this.GetIllnesses(0, 20);
+        }
+
+        public Illness[] GetIllnesses(int pager, int number)
         {
             Illness[] illnesses = new Illness[5];
             for (int i = 0; i < illnesses.Length; i++)

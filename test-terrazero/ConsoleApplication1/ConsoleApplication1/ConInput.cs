@@ -20,6 +20,7 @@ namespace ConsoleApplication1
         }
 
         public int IntInput { get; set; }
+        public char CharInput { get; set; }
 
         public ConIO(string input)
         {
@@ -34,6 +35,19 @@ namespace ConsoleApplication1
                 return true;
             }
             catch (FormatException)
+            {
+                return false;
+            }
+        }
+
+        public bool TestChar()
+        {
+            if (this.StringInput.Length == 1)
+            {
+                this.CharInput = this.StringInput.ToUpper()[0];
+                return true;
+            }
+            else
             {
                 return false;
             }
