@@ -21,6 +21,7 @@ namespace ConsoleApplication1
 
         public int IntInput { get; set; }
         public char CharInput { get; set; }
+        public bool BoolInput { get; set; }
 
         public ConIO(string input)
         {
@@ -38,6 +39,23 @@ namespace ConsoleApplication1
             {
                 return false;
             }
+        }
+
+        public bool TestBool()
+        {
+            if (this.stringInput == "j")
+            {
+                this.BoolInput = true;
+            }
+            else if (this.stringInput == "n")
+            {
+                this.BoolInput = false;
+            }
+            else
+            {
+                return false;
+            }
+            return true;
         }
 
         public bool TestChar()
@@ -77,6 +95,24 @@ namespace ConsoleApplication1
         public static void OutputNewLine()
         {
             Console.WriteLine();
+        }
+
+        public static void OutputError(string text)
+        {
+            ConIO.OutputLine(text);
+            ConIO.Input("Confirm with enter");
+        }
+
+        public static bool Confirm(string message)
+        {
+            ConIO confirm = null;
+            do
+            {
+                ConIO.OutputLine(message);
+                confirm = ConIO.Input("Confirm with (j/n)");
+                ConIO.OutputNewLine();
+            } while (!confirm.TestBool());
+            return confirm.BoolInput;
         }
 
     }

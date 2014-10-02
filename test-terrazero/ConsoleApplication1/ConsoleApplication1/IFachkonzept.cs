@@ -20,6 +20,11 @@ namespace ConsoleApplication1
         Boolean UpdatePatient(Patient patient);
         Boolean UpdateIllness(Illness illness);
         Boolean LinkPatientIllness(Patient patient, Illness illness);
+        // new
+        Boolean DelinkPatientIllness(Patient patient, Illness illness);
+        Illness[] GetIllnessesToPatient(Patient patient, int pager, int number);
+        Patient[] GetPatientsToIllness(Illness illness, int pager, int number);
+        // \new
         Boolean DeletePatient(Patient patient);
         Boolean DeleteIllness(Illness illness);
 

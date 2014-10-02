@@ -27,5 +27,23 @@ namespace ConsoleApplication1
             this.Curable = curable;
         }
 
+        public override string ToString()
+        {
+            string back = this.Name;
+            if (this.Contagious)
+            {
+                back += " : Contagious";
+            }
+            if (this.Curable)
+            {
+                back += " : Curable";
+            }
+            if (this.Lethal)
+            {
+                back += " : Lethal";
+            }
+            return back;
+        }
+
     }
 }

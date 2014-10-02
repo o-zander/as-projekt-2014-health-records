@@ -43,6 +43,10 @@ namespace ConsoleApplication1
 
         public Patient GetPatient(int id)
         {
+            if (id == 55)
+            {
+                return null;
+            }
             Patient patient = new Patient("first " + id, "last " + id, DateTime.Now.AddYears(-2));
             patient.PatientID = id;
             return patient;
@@ -50,6 +54,10 @@ namespace ConsoleApplication1
 
         public Illness GetIllness(int id)
         {
+            if (id == 55)
+            {
+                return null;
+            }
             Illness illness = new Illness("name " + id, (id / 3 + 8) % 2 == 0, (id / 8 + 3) % 3 == 0, (id / 3 - 9) % 5 == 0);
             illness.IllnessID = id;
             return illness;
@@ -57,11 +65,21 @@ namespace ConsoleApplication1
 
         public bool CreatePatient(Patient patient)
         {
+            if (patient.FirstName == "error")
+            {
+                return false;
+            }
+            patient.PatientID = 99;
             return true;
         }
 
         public bool CreateIllness(Illness illness)
         {
+            if (illness.Name == "error")
+            {
+                return false;
+            }
+            illness.IllnessID = 99;
             return true;
         }
 
@@ -82,12 +100,35 @@ namespace ConsoleApplication1
 
         public bool DeletePatient(Patient patient)
         {
+            if (patient.PatientID == 40)
+            {
+                return false;
+            }
             return true;
         }
 
         public bool DeleteIllness(Illness illness)
         {
+            if (illness.IllnessID == 40)
+            {
+                return false;
+            }
             return true;
+        }
+
+        public bool DelinkPatientIllness(Patient patient, Illness illness)
+        {
+            return true;
+        }
+
+        public Illness[] GetIllnessesToPatient(Patient patient, int pager, int number)
+        {
+            return this.GetIllnesses(patient.PatientID + pager, number);
+        }
+
+        public Patient[] GetPatientsToIllness(Illness illness, int pager, int number)
+        {
+            return this.GetPatients(illness.IllnessID + pager, number);
         }
 
     }

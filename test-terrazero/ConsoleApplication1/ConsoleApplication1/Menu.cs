@@ -9,8 +9,6 @@ namespace ConsoleApplication1
     class Menu
     {
 
-        private static String menu  = "root";
-
         private static int Start = (int)'A';
 
         public static char GetChar(int number)
