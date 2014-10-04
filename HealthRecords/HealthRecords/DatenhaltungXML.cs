@@ -88,83 +88,86 @@ namespace HealthRecords
         public Patient GetPatientData(int patientID)
         {
             Patient patient = new Patient();
-            int currentPatientID;
-            bool getPatientNode = false;
-            using (XmlReader reader = XmlReader.Create("Patients.xml"))
+            if (File.Exists("Patients.xml"))
             {
-                while (reader.Read())
+                int currentPatientID;
+                bool getPatientNode = false;
+                using (XmlReader reader = XmlReader.Create("Patients.xml"))
                 {
-                    while (reader.IsStartElement())
+                    while (reader.Read())
                     {
-                        switch (reader.Name)
+                        while (reader.IsStartElement())
                         {
-                            case "Patients":
-                                reader.Read();
-                                break;
-                            case "Patient":
-                                reader.Read();
-                                break; 
-                            case "PatientsID":
-                                if (reader.Read())
-                                {
-                                    try
+                            switch (reader.Name)
+                            {
+                                case "Patients":
+                                    reader.Read();
+                                    break;
+                                case "Patient":
+                                    reader.Read();
+                                    break;
+                                case "PatientsID":
+                                    if (reader.Read())
                                     {
-                                        currentPatientID = Int32.Parse(reader.Value.Trim());
-                                        if (currentPatientID == patientID)
+                                        try
                                         {
-                                            patient.PatientID = patientID;
-                                            getPatientNode = true;
+                                            currentPatientID = Int32.Parse(reader.Value.Trim());
+                                            if (currentPatientID == patientID)
+                                            {
+                                                patient.PatientID = patientID;
+                                                getPatientNode = true;
+                                            }
                                         }
+                                        catch (Exception) { }
                                     }
-                                    catch (Exception) { }                                    
-                                }
-                                break;
-                            case "FirstName":
-                                if (reader.Read())
-                                {
-                                    try
+                                    break;
+                                case "FirstName":
+                                    if (reader.Read())
                                     {
-                                        if (getPatientNode)
+                                        try
                                         {
-                                            patient.FirstName = reader.Value.Trim();
+                                            if (getPatientNode)
+                                            {
+                                                patient.FirstName = reader.Value.Trim();
+                                            }
                                         }
+                                        catch (Exception) { }
                                     }
-                                    catch (Exception) { }
-                                }
-                                break;
-                            case "LastName":
-                                if (reader.Read())
-                                {
-                                    try
+                                    break;
+                                case "LastName":
+                                    if (reader.Read())
                                     {
-                                        if (getPatientNode)
+                                        try
                                         {
-                                            patient.LastName = reader.Value.Trim();                                            
+                                            if (getPatientNode)
+                                            {
+                                                patient.LastName = reader.Value.Trim();
+                                            }
                                         }
+                                        catch (Exception) { }
                                     }
-                                    catch (Exception) { }
-                                }
-                                break;
-                            case "Birthday":
-                                if (reader.Read())
-                                {
-                                    try
+                                    break;
+                                case "Birthday":
+                                    if (reader.Read())
                                     {
-                                        if (getPatientNode)
+                                        try
+                                        {
+                                            if (getPatientNode)
+                                            {
+                                                getPatientNode = false;
+                                                DateTime birthdate = DateTime.Parse(reader.Value.Trim());
+                                                patient.Birthday = birthdate;
+                                            }
+                                        }
+                                        catch (Exception)
                                         {
                                             getPatientNode = false;
-                                            DateTime birthdate = DateTime.Parse(reader.Value.Trim());
-                                            patient.Birthday = birthdate;
                                         }
                                     }
-                                    catch (Exception)
-                                    {
-                                        getPatientNode = false;                                           
-                                    }
-                                }
-                                break;
-                            default:
-                                break;
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 }
@@ -195,9 +198,7 @@ namespace HealthRecords
                                                                   new XElement("Birthday",patient.Birthday.ToShortDateString())
                                                       )
                                     );
-                patientsElement.Save("Patients.xml");
-
-                
+                patientsElement.Save("Patients.xml");                
                 
             }
             else
@@ -229,6 +230,27 @@ namespace HealthRecords
 
         public Boolean UpdatePatientData(Patient patient)
         {
+            if (File.Exists("Patients.xml"))
+            {
+                XName xPatient = XName.Get("Patient");
+                XName xPatientsID = XName.Get("PatientsID");
+                XName xFirstName = XName.Get("FirstName");
+                XName xLastName = XName.Get("LastName");
+                XName xBirthday = XName.Get("Birthday");                
+                XElement patients = XElement.Load("Patients.xml");
+                IEnumerable<XElement> result =
+                    from el in patients.Elements(xPatient)
+                    where (string)el.Element(xPatientsID) == patient.PatientID.ToString()
+                    select el;
+                foreach (XElement el in result)
+                {
+                    el.Element(xFirstName).Value = patient.FirstName;
+                    el.Element(xLastName).Value = patient.LastName;
+                    el.Element(xBirthday).Value = patient.Birthday.ToShortDateString();
+                    patients.Save("Patients.xml");
+                }                   
+                
+            }
             return true;
         }
 

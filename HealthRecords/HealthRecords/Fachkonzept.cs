@@ -21,8 +21,7 @@ namespace HealthRecords
 
         public Patient[] GetPatients(int setSize, int lastID)
         {
-            Patient[] patients = datenhaltung.GetPatientsData(setSize, lastID);
-            return patients;
+            return datenhaltung.GetPatientsData(setSize, lastID);            
         }
 
         public Illness[] GetIllnesses(int setSize, int lastID)
@@ -33,8 +32,7 @@ namespace HealthRecords
 
         public Patient GetPatient(int patientID)
         {
-            Patient patient = datenhaltung.GetPatientData(patientID);
-            return patient;
+            return datenhaltung.GetPatientData(patientID);            
         }
 
         public Illness GetIllness(int illnessID)
@@ -45,8 +43,7 @@ namespace HealthRecords
 
         public Boolean CreatePatient(Patient patient)
         {
-            datenhaltung.CreatePatientData(patient);
-            return true;
+            return datenhaltung.CreatePatientData(patient);            
         }
 
         public Boolean CreateIllness(Illness illness)
@@ -56,7 +53,7 @@ namespace HealthRecords
 
         public Boolean UpdatePatient(Patient patient)
         {
-            return true;
+            return datenhaltung.UpdatePatientData(patient);
         }
 
         public Boolean UpdateIllness(Illness illness)
