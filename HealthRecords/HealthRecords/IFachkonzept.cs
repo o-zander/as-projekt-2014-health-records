@@ -7,10 +7,10 @@ namespace HealthRecords
 {
   interface IFachkonzept
   {
-     Patient[] GetPatients(int pager);
-     Illness[] GetIllnesses(int pager);
-     Patient GetPatient();
-     Illness GetIllness();
+     Patient[] GetPatients(int setSize, int lastID);
+     Illness[] GetIllnesses(int setSize, int lastID);
+     Patient GetPatient(int patientID);
+     Illness GetIllness(int illnessID);
      Boolean CreatePatient(Patient patient);
      Boolean CreateIllness(Illness illness);
      Boolean UpdatePatient(Patient patient);

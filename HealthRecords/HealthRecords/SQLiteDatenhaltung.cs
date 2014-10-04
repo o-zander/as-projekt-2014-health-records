@@ -81,9 +81,9 @@ namespace HealthRecords
             return (long) new SQLiteCommand("SELECT last_insert_rowid()", this.Connection).ExecuteScalar();
         }
 
-        public Patient[] GetPatientsData(int pager)
+        public Patient[] GetPatientsData(int setSize, int lastID)
         {
-            using (SQLiteDataReader reader = this.Select("T_Patients", pager)) 
+            using (SQLiteDataReader reader = this.Select("T_Patients", 0)) 
             {
                 List<Patient> patients = new List<Patient>();
                 while (reader.Read()) {
@@ -98,17 +98,17 @@ namespace HealthRecords
             }
         }
 
-        public Illness[] GetIllnessesData(int pager)
+        public Illness[] GetIllnessesData(int setSize, int lastID)
         {
             throw new NotImplementedException();
         }
 
-        public Patient GetPatientData()
+        public Patient GetPatientData(long patientID)
         {
             throw new NotImplementedException();
         }
 
-        public Illness GetIllnessData()
+        public Illness GetIllnessData(int illnessID)
         {
             throw new NotImplementedException();
         }

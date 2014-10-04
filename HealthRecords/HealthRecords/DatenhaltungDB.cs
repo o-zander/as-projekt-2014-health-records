@@ -5,27 +5,27 @@ using System.Text;
 
 namespace HealthRecords
 {
-    class DatenhaltungDB
+    class DatenhaltungDB:IDatenhaltung
     {
-        public Patient[] GetPatientsData(int pager)
+        public Patient[] GetPatientsData(int setSize, int lastID)
         {
-            Patient[] patients = new Patient[pager];
+            Patient[] patients = new Patient[setSize];
             return patients;
         }
 
-        public Illness[] GetIllnessesData(int pager)
+        public Illness[] GetIllnessesData(int setSize, int lastID)
         {
-            Illness[] illnesses = new Illness[pager];
+            Illness[] illnesses = new Illness[setSize];
             return illnesses;
         }
 
-        public Patient GetPatientData()
+        public Patient GetPatientData(int patientID)
         {
             Patient patient = new Patient();
             return patient;
         }
 
-        public Illness GetIllnessData()
+        public Illness GetIllnessData(int illnessID)
         {
             Illness illness = new Illness();
             return illness;
