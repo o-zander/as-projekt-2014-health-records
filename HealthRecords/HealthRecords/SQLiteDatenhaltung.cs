@@ -38,22 +38,22 @@ namespace HealthRecords
       this.Connect();
     }
 
-    public Patient[] GetPatients()
+    public Patient[] GetPatients(int setSize, int lastID)
     {
       throw new NotImplementedException();
     }
 
-    public Illness[] GetIllnesses()
+    public Illness[] GetIllnesses(int setSize, int lastID)
     {
       throw new NotImplementedException();
     }
 
-    public Patient GetPatient()
+    public Patient GetPatient(int patientID)
     {
       throw new NotImplementedException();
     }
 
-    public Illness GetIllness()
+    public Illness GetIllness(int illnessID)
     {
       throw new NotImplementedException();
     }

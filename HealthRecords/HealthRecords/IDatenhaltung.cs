@@ -7,10 +7,10 @@ namespace HealthRecords
 {
   interface IDatenhaltung
   {
-     Patient[] GetPatientsData(int pager);
-     Illness[] GetIllnessesData(int pager);
-     Patient GetPatientData();
-     Illness GetIllnessData();
+     Patient[] GetPatientsData(int setSize, int lastID);
+     Illness[] GetIllnessesData(int setSize, int lastID);
+     Patient GetPatientData(int patientID);
+     Illness GetIllnessData(int illnessID);
      Boolean CreatePatientData(Patient patient);
      Boolean CreateIllnessData(Illness illness);
      Boolean UpdatePatientData(Patient patient);

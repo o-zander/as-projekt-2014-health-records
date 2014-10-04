@@ -18,7 +18,7 @@ namespace HealthRecords
                 GUI newGUI = new GUI(new Fachkonzept(new DatenhaltungDB()));
                 break;
             case "TUI":
-                TUI newTUI = new TUI(new Fachkonzept(new DatenhaltungDB()));
+                TUI newTUI = new TUI(new Fachkonzept(new DatenhaltungXML()));
                 break;
             default:
                 throw new Exception("Es konnte kein Benutzerschnittstelle gefunden werden.");                
