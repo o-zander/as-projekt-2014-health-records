@@ -24,7 +24,7 @@ namespace HealthRecords
         private void GetAllPatients()
         {
             int setSize = 5;
-            int lastID = 0;
+            long lastID = 0;
             patients.Clear();
             Patient[] results;
             results = fachkonzept.GetPatients(setSize, lastID);
@@ -98,7 +98,7 @@ namespace HealthRecords
         private void createBtn_Click(object sender, EventArgs e)
         {        
             Patient patient = new Patient();
-            int patientsID = fachkonzept.CreatePatient(patient);
+            long patientsID = fachkonzept.CreatePatient(patient);
             patients.Add(new Patient() { PatientID = patientsID });
             patientBindingSource.ResetBindings(false);
             dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[1];
@@ -127,7 +127,7 @@ namespace HealthRecords
                     return;                    
             }              
    
-            int currPatientID = (int)dataGridView1.Rows[selectedRow].Cells[0].Value;
+            long currPatientID = (long)dataGridView1.Rows[selectedRow].Cells[0].Value;
             string currFirstName = (string)dataGridView1.Rows[selectedRow].Cells[1].Value;
             string currLastName = (string)dataGridView1.Rows[selectedRow].Cells[2].Value;
             string message = String.Format("Möchten sie Patient {0} {1} mit der ID {2} wirklich löschen?", currFirstName, currLastName, currPatientID);

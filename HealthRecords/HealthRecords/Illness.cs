@@ -7,7 +7,7 @@ namespace HealthRecords
 {
   class Illness
   {
-    public int IllnessID { get; set; }
+    public long IllnessID { get; set; }
     public String Name { get; set; }
     public Boolean Contagious { get; set; }
     public Boolean Lethal { get; set; }

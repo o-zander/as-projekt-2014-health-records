@@ -7,36 +7,36 @@ namespace HealthRecords
 {
     class DatenhaltungDB:IDatenhaltung
     {
-        public Patient[] GetPatientsData(int setSize, int lastID)
+        public Patient[] GetPatientsData(int setSize, long lastID)
         {
             Patient[] patients = new Patient[setSize];
             return patients;
         }
 
-        public Illness[] GetIllnessesData(int setSize, int lastID)
+        public Illness[] GetIllnessesData(int setSize, long lastID)
         {
             Illness[] illnesses = new Illness[setSize];
             return illnesses;
         }
 
-        public Patient GetPatientData(int patientID)
+        public Patient GetPatientData(long patientID)
         {
             Patient patient = new Patient();
             return patient;
         }
 
-        public Illness GetIllnessData(int illnessID)
+        public Illness GetIllnessData(long illnessID)
         {
             Illness illness = new Illness();
             return illness;
         }
 
-        public int CreatePatientData(Patient patient)
+        public long CreatePatientData(Patient patient)
         {
             throw new NotImplementedException();            
         }
 
-        public int CreateIllnessData(Illness illness)
+        public long CreateIllnessData(Illness illness)
         {
             throw new NotImplementedException();
         }

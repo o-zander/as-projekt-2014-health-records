@@ -17,7 +17,7 @@ namespace HealthRecords
             this.PatientID = 0;
             this.FirstName = "";
             this.LastName = "";
-            this.Birthday = DateTime.Today;
+            this.Birthday = default(DateTime);
         }
 
         public Patient(String firstName, String lastName, DateTime birthday)

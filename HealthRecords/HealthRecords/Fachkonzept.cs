@@ -14,32 +14,32 @@ namespace HealthRecords
             this.datenhaltung = datenhaltung;            
         }
 
-        public Patient[] GetPatients(int setSize, int lastID)
+        public Patient[] GetPatients(int setSize, long lastID)
         {
             return datenhaltung.GetPatientsData(setSize, lastID);            
         }
 
-        public Illness[] GetIllnesses(int setSize, int lastID)
+        public Illness[] GetIllnesses(int setSize, long lastID)
         {
             throw new NotImplementedException();
         }
 
-        public Patient GetPatient(int patientID)
+        public Patient GetPatient(long patientID)
         {
             return datenhaltung.GetPatientData(patientID);            
         }
 
-        public Illness GetIllness(int illnessID)
+        public Illness GetIllness(long illnessID)
         {
             throw new NotImplementedException();
         }
 
-        public int CreatePatient(Patient patient)
+        public long CreatePatient(Patient patient)
         {
             return datenhaltung.CreatePatientData(patient);            
         }
 
-        public int CreateIllness(Illness illness)
+        public long CreateIllness(Illness illness)
         {
             throw new NotImplementedException();
         }

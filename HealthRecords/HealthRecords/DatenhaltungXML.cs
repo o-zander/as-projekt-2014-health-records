@@ -10,8 +10,8 @@ namespace HealthRecords
 {
     class DatenhaltungXML : IDatenhaltung
     {
-        private int lastPatientID = 0;
-        private int lastIllnessID = 0;
+        private long lastPatientID = 0;
+        private long lastIllnessID = 0;
 
         public DatenhaltungXML()
         {
@@ -20,7 +20,7 @@ namespace HealthRecords
 
         private void GetLastPatientId()
         {
-            int currentPatientID = 0;
+            long currentPatientID = 0;
             if (File.Exists("Patients.xml"))
             {
                 XElement patients = XElement.Load("Patients.xml");
@@ -31,7 +31,7 @@ namespace HealthRecords
                     try
                     {
                         XElement patientsIDElement = item.Element(patientsID);
-                        currentPatientID = Int32.Parse(patientsIDElement.Value);
+                        currentPatientID = Int64.Parse(patientsIDElement.Value);
                         if (currentPatientID > lastPatientID)
                         {
                             lastPatientID = currentPatientID;
@@ -42,7 +42,7 @@ namespace HealthRecords
             }
         }
 
-        public Patient[] GetPatientsData(int setSize, int lastID)
+        public Patient[] GetPatientsData(int setSize, long lastID)
         {
             Patient[] patients = new Patient[setSize];
             if (File.Exists("Patients.xml"))
@@ -58,7 +58,7 @@ namespace HealthRecords
                 {
                     try
                     {
-                        int curPatientID = Int32.Parse(item.Element(xPatientsID).Value);
+                        long curPatientID = Int64.Parse(item.Element(xPatientsID).Value);
                         string curFirstName = item.Element(xFirstName).Value;
                         string curLastName = item.Element(xLastName).Value;
                         DateTime currBirthday = default(DateTime);
@@ -79,18 +79,18 @@ namespace HealthRecords
             return patients.Where(x => !(x == null)).ToArray();
         }
 
-        public Illness[] GetIllnessesData(int setSize, int lastID)
+        public Illness[] GetIllnessesData(int setSize, long lastID)
         {
             Illness[] illnesses = new Illness[setSize];
             return illnesses;
         }
 
-        public Patient GetPatientData(int patientID)
+        public Patient GetPatientData(long patientID)
         {
             Patient patient = new Patient();
             if (File.Exists("Patients.xml"))
             {
-                int currentPatientID;
+                long currentPatientID;
                 bool getPatientNode = false;
                 using (XmlReader reader = XmlReader.Create("Patients.xml"))
                 {
@@ -111,7 +111,7 @@ namespace HealthRecords
                                     {
                                         try
                                         {
-                                            currentPatientID = Int32.Parse(reader.Value.Trim());
+                                            currentPatientID = Int64.Parse(reader.Value.Trim());
                                             if (currentPatientID == patientID)
                                             {
                                                 patient.PatientID = patientID;
@@ -176,13 +176,13 @@ namespace HealthRecords
             return patient;
         }
 
-        public Illness GetIllnessData(int illnessID)
+        public Illness GetIllnessData(long illnessID)
         {
             Illness illness = new Illness();
             return illness;
         }
 
-        public int CreatePatientData(Patient patient)
+        public long CreatePatientData(Patient patient)
         {
             //Patient patient1 = new Patient(){ FirstName="Max", LastName="Mustermann", Birthday=DateTime.Today, PatientID=1}
 
@@ -238,7 +238,7 @@ namespace HealthRecords
             }            
         }
 
-        public int CreateIllnessData(Illness illness)
+        public long CreateIllnessData(Illness illness)
         {
             throw new NotImplementedException();
         }

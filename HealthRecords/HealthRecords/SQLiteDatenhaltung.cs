@@ -76,14 +76,23 @@ namespace HealthRecords
             ).ExecuteReader();
         }
 
+        private SQLiteDataReader Select2(string table, string key, int setSize, long lastID)
+        {
+            return new SQLiteCommand(
+                String.Format("SELECT * FROM {0} WHERE {1} > {2} LIMIT {3} ", table, key, lastID, setSize),
+                this.Connection
+            ).ExecuteReader();
+        }
+
         private long GetLastInsertRowID()
         {
             return (long) new SQLiteCommand("SELECT last_insert_rowid()", this.Connection).ExecuteScalar();
         }
 
-        public Patient[] GetPatientsData(int setSize, int lastID)
+        public Patient[] GetPatientsData(int setSize, long lastID)
         {
-            using (SQLiteDataReader reader = this.Select("T_Patients", 0)) 
+            //using (SQLiteDataReader reader = this.Select("T_Patients", 0)) 
+            using (SQLiteDataReader reader = this.Select2("T_Patients","patientID",setSize,lastID))           
             {
                 List<Patient> patients = new List<Patient>();
                 while (reader.Read()) {
@@ -98,7 +107,7 @@ namespace HealthRecords
             }
         }
 
-        public Illness[] GetIllnessesData(int setSize, int lastID)
+        public Illness[] GetIllnessesData(int setSize, long lastID)
         {
             throw new NotImplementedException();
         }
@@ -108,12 +117,12 @@ namespace HealthRecords
             throw new NotImplementedException();
         }
 
-        public Illness GetIllnessData(int illnessID)
+        public Illness GetIllnessData(long illnessID)
         {
             throw new NotImplementedException();
         }
 
-        public bool CreatePatientData(Patient patient)
+        public long CreatePatientData(Patient patient)
         {
             if (patient.PatientID == 0)
             {
@@ -128,20 +137,24 @@ namespace HealthRecords
                 if (command.ExecuteNonQuery() == 1)
                 {
                     patient.PatientID = this.GetLastInsertRowID();
-                    return true;
+                    //return true;
+                    return patient.PatientID;
                 }
                 else
                 {
-                    return false;
+                    //return false;                    
                 }
             }
+            return -1;
+            /*
             else
             {
                 return this.UpdatePatientData(patient);
             }
+              */
         }
 
-        public bool CreateIllnessData(Illness illness)
+        public long CreateIllnessData(Illness illness)
         {
             throw new NotImplementedException();
         }

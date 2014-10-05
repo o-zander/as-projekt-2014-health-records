@@ -16,11 +16,13 @@ namespace HealthRecords
         public TUI(Fachkonzept fachkonzept)
         {
             System.Console.WriteLine("Fachkonzept ist da!");
-            System.Console.WriteLine("Schreibe Patient ...");
+            System.Console.WriteLine("Schreibe Patient ...");            
             Patient createPatient = new Patient() { FirstName = "Gerlinde", LastName = "Buchnick", Birthday = DateTime.Today };
             System.Console.WriteLine("Vorname: " + createPatient.FirstName + " Nachname: " + createPatient.LastName);
             fachkonzept.CreatePatient(createPatient);
 
+            System.Console.ReadLine();
+            /*
             System.Console.WriteLine("Lese Patient ...");
             Patient getPatient = fachkonzept.GetPatient(2);
             //System.Console.WriteLine("Vorname: {0} Nachname: {1} Geburtstag: {2} ID: {3}", getPatient.FirstName, getPatient.LastName, getPatient.Birthday.ToShortDateString(),getPatient.PatientID);            
@@ -46,6 +48,7 @@ namespace HealthRecords
             }
             
             System.Console.ReadLine();
+             */
         }
     }
 }
