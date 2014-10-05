@@ -135,8 +135,7 @@ namespace HealthRecords
             {
                 fachkonzept.DeletePatient(new Patient() { PatientID = currPatientID });
                 patients.RemoveAll(x => x.PatientID == currPatientID);
-                patientBindingSource.ResetBindings(false);
-                //GetAllPatients();
+                patientBindingSource.ResetBindings(false);              
             }           
         }
     }
