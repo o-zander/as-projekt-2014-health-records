@@ -15,7 +15,7 @@ namespace HealthRecords
         switch (Properties.Settings.Default.UI)
         {
             case "GUI":
-                GUI newGUI = new GUI(new Fachkonzept(new DatenhaltungDB()));
+                GUI newGUI = new GUI(new Fachkonzept(new DatenhaltungXML()));
                 break;
             case "TUI":
                 TUI newTUI = new TUI(new Fachkonzept(new DatenhaltungXML()));

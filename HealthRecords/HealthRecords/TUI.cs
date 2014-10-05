@@ -33,7 +33,7 @@ namespace HealthRecords
                     System.Console.WriteLine("Vorname: {0} Nachname: {1} Geburtstag: {2} ID: {3}", patients[i].FirstName, patients[i].LastName, patients[i].Birthday.ToShortDateString(), patients[i].PatientID);
             }
 
-            Patient updatePatient = new Patient() { FirstName = "TestVorname", LastName = "TestNachname", Birthday = DateTime.Today, PatientID = 4 };
+            Patient updatePatient = new Patient() { FirstName = "Beatrice", LastName = "Bonnaparte", Birthday = DateTime.Parse("21.10.1987"), PatientID = 4 };
             System.Console.WriteLine("Update Patient ...");
             fachkonzept.UpdatePatient(updatePatient);            
             

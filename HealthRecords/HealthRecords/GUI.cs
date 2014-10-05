@@ -8,18 +8,11 @@ namespace HealthRecords
 {
     class GUI
     {
-        public GUI()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new OverviewForm());
-        }
-
         public GUI(Fachkonzept fachkonzept)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new OverviewForm());
+            Application.Run(new OverviewForm(fachkonzept));
         }        
     }
 }

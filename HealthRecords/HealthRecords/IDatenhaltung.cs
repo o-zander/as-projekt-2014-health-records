@@ -11,12 +11,12 @@ namespace HealthRecords
      Illness[] GetIllnessesData(int setSize, int lastID);
      Patient GetPatientData(int patientID);
      Illness GetIllnessData(int illnessID);
-     Boolean CreatePatientData(Patient patient);
-     Boolean CreateIllnessData(Illness illness);
-     Boolean UpdatePatientData(Patient patient);
-     Boolean UpdateIllnessData(Illness illness);
-     Boolean LinkPatientIllnessData(Patient patient, Illness illness);
-     Boolean DeletePatientData(Patient patient);
-     Boolean DeleteIllnessData(Illness illness);
+     int CreatePatientData(Patient patient);
+     int CreateIllnessData(Illness illness);
+     bool UpdatePatientData(Patient patient);
+     bool UpdateIllnessData(Illness illness);
+     bool LinkPatientIllnessData(Patient patient, Illness illness);
+     bool DeletePatientData(Patient patient);
+     bool DeleteIllnessData(Illness illness);
   }
 }

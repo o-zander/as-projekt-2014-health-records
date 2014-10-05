@@ -31,37 +31,37 @@ namespace HealthRecords
             return illness;
         }
 
-        public Boolean CreatePatientData(Patient patient)
+        public int CreatePatientData(Patient patient)
+        {
+            throw new NotImplementedException();            
+        }
+
+        public int CreateIllnessData(Illness illness)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdatePatientData(Patient patient)
         {
             return true;
         }
 
-        public Boolean CreateIllnessData(Illness illness)
+        public bool UpdateIllnessData(Illness illness)
         {
             return true;
         }
 
-        public Boolean UpdatePatientData(Patient patient)
+        public bool LinkPatientIllnessData(Patient patient, Illness illness)
         {
             return true;
         }
 
-        public Boolean UpdateIllnessData(Illness illness)
+        public bool DeletePatientData(Patient patient)
         {
             return true;
         }
 
-        public Boolean LinkPatientIllnessData(Patient patient, Illness illness)
-        {
-            return true;
-        }
-
-        public Boolean DeletePatientData(Patient patient)
-        {
-            return true;
-        }
-
-        public Boolean DeleteIllnessData(Illness illness)
+        public bool DeleteIllnessData(Illness illness)
         {
             return true;
         }

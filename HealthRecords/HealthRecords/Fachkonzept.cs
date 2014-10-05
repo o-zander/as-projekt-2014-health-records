@@ -7,16 +7,11 @@ namespace HealthRecords
 {
     class Fachkonzept : IFachkonzept
     {
-        private IDatenhaltung datenhaltung; 
+        private IDatenhaltung datenhaltung;  
 
-        public Fachkonzept(DatenhaltungDB datenhaltungDB)
+        public Fachkonzept(IDatenhaltung datenhaltung)
         {
-            this.datenhaltung = datenhaltungDB;
-        }
-
-        public Fachkonzept(DatenhaltungXML datenhaltungXML)
-        {
-            this.datenhaltung = datenhaltungXML;            
+            this.datenhaltung = datenhaltung;            
         }
 
         public Patient[] GetPatients(int setSize, int lastID)
@@ -26,8 +21,7 @@ namespace HealthRecords
 
         public Illness[] GetIllnesses(int setSize, int lastID)
         {
-            Illness[] illnesses = new Illness[setSize];
-            return illnesses;
+            throw new NotImplementedException();
         }
 
         public Patient GetPatient(int patientID)
@@ -37,43 +31,42 @@ namespace HealthRecords
 
         public Illness GetIllness(int illnessID)
         {
-            Illness illness = new Illness();
-            return illness;
+            throw new NotImplementedException();
         }
 
-        public Boolean CreatePatient(Patient patient)
+        public int CreatePatient(Patient patient)
         {
             return datenhaltung.CreatePatientData(patient);            
         }
 
-        public Boolean CreateIllness(Illness illness)
+        public int CreateIllness(Illness illness)
         {
-            return true;
+            throw new NotImplementedException();
         }
 
-        public Boolean UpdatePatient(Patient patient)
+        public bool UpdatePatient(Patient patient)
         {
             return datenhaltung.UpdatePatientData(patient);
         }
 
-        public Boolean UpdateIllness(Illness illness)
+        public bool UpdateIllness(Illness illness)
         {
-            return true;
+            throw new NotImplementedException();
         }
 
-        public Boolean LinkPatientIllness(Patient patient, Illness illness)
+        public bool LinkPatientIllness(Patient patient, Illness illness)
         {
-            return true;
+            throw new NotImplementedException();
         }
 
-        public Boolean DeletePatient(Patient patient)
+        public bool DeletePatient(Patient patient)
         {
-            return true;
+            return datenhaltung.DeletePatientData(patient);
         }
 
-        public Boolean DeleteIllness(Illness illness)
+        public bool DeleteIllness(Illness illness)
         {
-            return true;
+            throw new NotImplementedException();
         }
     }
 }

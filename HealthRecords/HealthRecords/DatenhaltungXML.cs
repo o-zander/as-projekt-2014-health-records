@@ -61,10 +61,11 @@ namespace HealthRecords
                         int curPatientID = Int32.Parse(item.Element(xPatientsID).Value);
                         string curFirstName = item.Element(xFirstName).Value;
                         string curLastName = item.Element(xLastName).Value;
-                        DateTime curBirthday = String.IsNullOrWhiteSpace(item.Element(xBirthday).Value) ? default(DateTime) : DateTime.Parse(item.Element(xBirthday).Value);
+                        DateTime currBirthday = default(DateTime);
+                        DateTime.TryParse(item.Element(xBirthday).Value,out currBirthday);                        
                         if (curPatientID > lastID)
                         {
-                            Patient patient = new Patient() { PatientID = curPatientID, FirstName = curFirstName, LastName = curLastName, Birthday = curBirthday };
+                            Patient patient = new Patient() { PatientID = curPatientID, FirstName = curFirstName, LastName = curLastName, Birthday = currBirthday };
                             if (CountPatients < setSize)
                             {
                                 patients[CountPatients] = patient;
@@ -75,8 +76,7 @@ namespace HealthRecords
                     catch (Exception) { }
                 }
             }
-
-            return patients;
+            return patients.Where(x => !(x == null)).ToArray();
         }
 
         public Illness[] GetIllnessesData(int setSize, int lastID)
@@ -155,7 +155,8 @@ namespace HealthRecords
                                             if (getPatientNode)
                                             {
                                                 getPatientNode = false;
-                                                DateTime birthdate = DateTime.Parse(reader.Value.Trim());
+                                                DateTime birthdate;
+                                                DateTime.TryParse(reader.Value.Trim(),out birthdate);
                                                 patient.Birthday = birthdate;
                                             }
                                         }
@@ -181,12 +182,14 @@ namespace HealthRecords
             return illness;
         }
 
-        public Boolean CreatePatientData(Patient patient)
+        public int CreatePatientData(Patient patient)
         {
             //Patient patient1 = new Patient(){ FirstName="Max", LastName="Mustermann", Birthday=DateTime.Today, PatientID=1}
 
             if (File.Exists("Patients.xml"))
             {
+                try
+                {                
                 //XDocument xDoc = XDocument.Load("Patients.xml");
                 //XName patients = XName.Get("Patients");
                 //XElement patientsElement = xDoc.Element(patients);
@@ -195,40 +198,52 @@ namespace HealthRecords
                                                                   new XElement("PatientsID",++lastPatientID ),
                                                                   new XElement("FirstName",patient.FirstName),
                                                                   new XElement("LastName",patient.LastName),
-                                                                  new XElement("Birthday",patient.Birthday.ToShortDateString())
+                                                                  new XElement("Birthday",patient.Birthday == default(DateTime)? patient.Birthday.ToShortDateString() : "")
                                                       )
                                     );
-                patientsElement.Save("Patients.xml");                
-                
+                patientsElement.Save("Patients.xml");
+                return lastPatientID;
+                }
+                catch (Exception)
+                {
+                    return -1;                    
+                }                
             }
             else
             {
-                using (XmlWriter writer = XmlWriter.Create("Patients.xml"))
-                {
-                    writer.WriteStartDocument();
-                    writer.WriteStartElement("Patients");
+                try
+                {                
+                    using (XmlWriter writer = XmlWriter.Create("Patients.xml"))
+                    {
+                        writer.WriteStartDocument();
+                        writer.WriteStartElement("Patients");
 
-                    writer.WriteStartElement("Patient");
-                    writer.WriteElementString("PatientsID", (++lastPatientID).ToString());
-                    writer.WriteElementString("FirstName", patient.FirstName.ToString());
-                    writer.WriteElementString("LastName", patient.LastName.ToString());
-                    writer.WriteElementString("Birthday", patient.Birthday.ToShortDateString());
-                    writer.WriteEndElement();
+                        writer.WriteStartElement("Patient");
+                        writer.WriteElementString("PatientsID", (++lastPatientID).ToString());
+                        writer.WriteElementString("FirstName", patient.FirstName == null ? "" : patient.FirstName.ToString());
+                        writer.WriteElementString("LastName", patient.LastName == null ? "" : patient.LastName.ToString());
+                        writer.WriteElementString("Birthday", patient.Birthday == default(DateTime)? patient.Birthday.ToShortDateString() : "");
+                        writer.WriteEndElement();
 
-                    writer.WriteEndElement();
-                    writer.WriteEndDocument();
+                        writer.WriteEndElement();
+                        writer.WriteEndDocument();                    
+                    }
+                    return lastPatientID;
                 }
-            }
+                catch (Exception)
+                {
 
-            return true;
+                    return -1;
+                }
+            }            
         }
 
-        public Boolean CreateIllnessData(Illness illness)
+        public int CreateIllnessData(Illness illness)
         {
-            return true;
+            throw new NotImplementedException();
         }
 
-        public Boolean UpdatePatientData(Patient patient)
+        public bool UpdatePatientData(Patient patient)
         {
             if (File.Exists("Patients.xml"))
             {
@@ -246,7 +261,7 @@ namespace HealthRecords
                 {
                     el.Element(xFirstName).Value = patient.FirstName;
                     el.Element(xLastName).Value = patient.LastName;
-                    el.Element(xBirthday).Value = patient.Birthday.ToShortDateString();
+                    el.Element(xBirthday).Value = patient.Birthday == default(DateTime)? patient.Birthday.ToShortDateString() : "";
                     patients.Save("Patients.xml");
                 }                   
                 
@@ -254,22 +269,38 @@ namespace HealthRecords
             return true;
         }
 
-        public Boolean UpdateIllnessData(Illness illness)
+        public bool UpdateIllnessData(Illness illness)
         {
             return true;
         }
 
-        public Boolean LinkPatientIllnessData(Patient patient, Illness illness)
+        public bool LinkPatientIllnessData(Patient patient, Illness illness)
         {
             return true;
         }
 
-        public Boolean DeletePatientData(Patient patient)
+        public bool DeletePatientData(Patient patient)
         {
+            if (File.Exists("Patients.xml"))
+            {
+                XName xPatient = XName.Get("Patient");
+                XName xPatientsID = XName.Get("PatientsID");                
+                XElement patients = XElement.Load("Patients.xml");
+                IEnumerable<XElement> result =
+                    from el in patients.Elements(xPatient)
+                    where (string)el.Element(xPatientsID) == patient.PatientID.ToString()
+                    select el;
+                foreach (XElement el in result)
+                {
+                    el.Remove();
+                    patients.Save("Patients.xml");
+                }
+
+            }
             return true;
         }
 
-        public Boolean DeleteIllnessData(Illness illness)
+        public bool DeleteIllnessData(Illness illness)
         {
             return true;
         }

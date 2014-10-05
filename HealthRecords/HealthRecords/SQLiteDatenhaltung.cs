@@ -58,12 +58,12 @@ namespace HealthRecords
       throw new NotImplementedException();
     }
 
-    public bool CreatePatient(Patient patient)
+    public int CreatePatient(Patient patient)
     {
       throw new NotImplementedException();
     }
 
-    public bool CreateIllness(Illness illness)
+    public int CreateIllness(Illness illness)
     {
       throw new NotImplementedException();
     }
