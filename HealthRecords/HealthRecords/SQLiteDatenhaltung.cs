@@ -33,8 +33,6 @@ namespace HealthRecords
             )"
         };
 
-        private int ItemsPerPage = 10;
-
         private void Connect()
         {
             SQLiteConnectionStringBuilder connectionStringBuilder = new SQLiteConnectionStringBuilder();
@@ -68,18 +66,34 @@ namespace HealthRecords
             this.InitDatabase();
         }
 
-        private SQLiteDataReader Select(string table, int page)
+        private SQLiteDataReader Select(string table)
         {
             return new SQLiteCommand(
-                String.Format("SELECT * FROM {0} LIMIT {1}, {2}", table, this.ItemsPerPage * page, this.ItemsPerPage),
+                String.Format("SELECT * FROM {0}", table),
                 this.Connection
             ).ExecuteReader();
         }
 
-        private SQLiteDataReader Select2(string table, string key, int setSize, long lastID)
+        private SQLiteDataReader Select(string table, string where)
         {
             return new SQLiteCommand(
-                String.Format("SELECT * FROM {0} WHERE {1} > {2} LIMIT {3} ", table, key, lastID, setSize),
+                String.Format("SELECT * FROM {0} WHERE {1}", table, where),
+                this.Connection
+            ).ExecuteReader();
+        }
+
+        private SQLiteDataReader Select(string table, string[] fields, string where)
+        {
+            return new SQLiteCommand(
+                String.Format("SELECT {0} FROM {1} WHERE {2}", String.Join(",", fields), table, where),
+                this.Connection
+            ).ExecuteReader();
+        }
+
+        private SQLiteDataReader Select(string table, string[] fields, string where, string limit)
+        {
+            return new SQLiteCommand(
+                String.Format("SELECT {0} FROM {1} WHERE {2} LIMIT {3}", String.Join(",", fields), table, where, limit),
                 this.Connection
             ).ExecuteReader();
         }
@@ -89,19 +103,34 @@ namespace HealthRecords
             return (long) new SQLiteCommand("SELECT last_insert_rowid()", this.Connection).ExecuteScalar();
         }
 
+        private Patient GetPatientFromReader(SQLiteDataReader reader)
+        {
+            return new Patient(
+                (long) reader["patientID"],
+                (string) reader["firstName"],
+                (string) reader["lastName"],
+                (DateTime) reader["birthday"]
+            );
+        }
+
+        private Illness GetIllnessFromReader(SQLiteDataReader reader)
+        {
+            return new Illness(
+                (long) reader["illnessID"],
+                (string) reader["name"],
+                (bool) reader["contagious"],
+                (bool) reader["lethal"],
+                (bool) reader["curable"]
+            );
+        }
+
         public Patient[] GetPatientsData(int setSize, long lastID)
         {
-            //using (SQLiteDataReader reader = this.Select("T_Patients", 0)) 
-            using (SQLiteDataReader reader = this.Select2("T_Patients","patientID",setSize,lastID))           
+            using (SQLiteDataReader reader = this.Select("T_Patients")) 
             {
                 List<Patient> patients = new List<Patient>();
                 while (reader.Read()) {
-                    patients.Add(new Patient(
-                        (long) reader["patientID"],
-                        (string) reader["firstName"],
-                        (string) reader["lastName"],
-                        (DateTime) reader["birthday"])
-                    );
+                    patients.Add(this.GetPatientFromReader(reader));
                 }
                 return patients.ToArray();
             }
@@ -109,17 +138,30 @@ namespace HealthRecords
 
         public Illness[] GetIllnessesData(int setSize, long lastID)
         {
-            throw new NotImplementedException();
+            using (SQLiteDataReader reader = this.Select("T_Illnesses"))
+            {
+                List<Illness> illnesses = new List<Illness>();
+                while (reader.Read()) {
+                    illnesses.Add(this.GetIllnessFromReader(reader));
+                }
+                return illnesses.ToArray();
+            }
         }
 
         public Patient GetPatientData(long patientID)
         {
-            throw new NotImplementedException();
+            using (SQLiteDataReader reader = this.Select("T_Patients", String.Format("patientID = {0}", patientID)))
+            {
+                return reader.Read() ? this.GetPatientFromReader(reader) : null;
+            }
         }
 
         public Illness GetIllnessData(long illnessID)
         {
-            throw new NotImplementedException();
+            using (SQLiteDataReader reader = this.Select("T_Illnesses", String.Format("illnessID = {0}", illnessID)))
+            {
+                return reader.Read() ? this.GetIllnessFromReader(reader) : null;
+            }
         }
 
         public long CreatePatientData(Patient patient)
@@ -134,54 +176,131 @@ namespace HealthRecords
                 command.Parameters.Add("@firstName", DbType.String).Value = patient.FirstName;
                 command.Parameters.Add("@lastName", DbType.String).Value = patient.FirstName;
                 command.Parameters.Add("@birthday", DbType.DateTime).Value = patient.Birthday;
-                if (command.ExecuteNonQuery() == 1)
-                {
-                    patient.PatientID = this.GetLastInsertRowID();
-                    //return true;
-                    return patient.PatientID;
-                }
-                else
-                {
-                    //return false;                    
-                }
+                return command.ExecuteNonQuery() == 1 ? (patient.PatientID = this.GetLastInsertRowID()) : -1;
             }
-            return -1;
-            /*
             else
             {
-                return this.UpdatePatientData(patient);
+                return -1;
             }
-              */
         }
 
         public long CreateIllnessData(Illness illness)
         {
-            throw new NotImplementedException();
+            if (illness.IllnessID == 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(
+                    @"INSERT INTO T_Illnesses (name, contagious, lethal, curable)
+                      VALUES (@name, @contagious, @lethal, @curable)",
+                    this.Connection
+                );
+                command.Parameters.Add("@name", DbType.String).Value = illness.Name;
+                command.Parameters.Add("@contagious", DbType.Boolean).Value = illness.Contagious;
+                command.Parameters.Add("@lethal", DbType.Boolean).Value = illness.Lethal;
+                command.Parameters.Add("@curable", DbType.Boolean).Value = illness.Curable;
+                return command.ExecuteNonQuery() == 1 ? (illness.IllnessID = this.GetLastInsertRowID()) : -1;
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public bool UpdatePatientData(Patient patient)
         {
-            throw new NotImplementedException();
+            if (patient.PatientID > 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(
+                    @"UPDATE T_Patients
+                      SET firstName = @firstName, lastName = @lastName, birthday = @birthday
+                      WHERE patientID = @patientID",
+                    this.Connection
+                );
+                command.Parameters.Add("@firstName", DbType.String).Value = patient.FirstName;
+                command.Parameters.Add("@lastName", DbType.String).Value = patient.FirstName;
+                command.Parameters.Add("@birthday", DbType.DateTime).Value = patient.Birthday;
+                command.Parameters.Add("@patientID", DbType.Int64).Value = patient.PatientID;
+                return command.ExecuteNonQuery() == 1;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool UpdateIllnessData(Illness illness)
         {
-            throw new NotImplementedException();
+            if (illness.IllnessID > 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(
+                    @"UPDATE T_Illnesses
+                      SET name = @name, contagious = @contagious, lethal = @lethal, curable = @curable
+                      WHERE illnessID = @illnessID",
+                    this.Connection
+                );
+                command.Parameters.Add("@name", DbType.String).Value = illness.Name;
+                command.Parameters.Add("@contagious", DbType.Boolean).Value = illness.Contagious;
+                command.Parameters.Add("@lethal", DbType.Boolean).Value = illness.Lethal;
+                command.Parameters.Add("@curable", DbType.Boolean).Value = illness.Curable;
+                command.Parameters.Add("@illnessID", DbType.Int64).Value = illness.IllnessID;
+                return command.ExecuteNonQuery() == 1;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool LinkPatientIllnessData(Patient patient, Illness illness)
         {
-            throw new NotImplementedException();
+            if (patient.PatientID > 0 && illness.IllnessID > 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(
+                    @"INSERT INTO T_PatientsIllnesses (patientID, illnessID)
+                      VALUES (@patientID, @illnessID)",
+                    this.Connection
+                );
+                command.Parameters.Add("@patientID", DbType.Int64).Value = patient.PatientID;
+                command.Parameters.Add("@illnessID", DbType.Int64).Value = illness.IllnessID;
+                return command.ExecuteNonQuery() == 1;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool DeletePatientData(Patient patient)
         {
-            throw new NotImplementedException();
+            if (patient.PatientID > 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(
+                    "DELETE FROM T_Patients WHERE patientID = @patientID",
+                    this.Connection
+                );
+                command.Parameters.Add("@patientID", DbType.Int64).Value = patient.PatientID;
+                return command.ExecuteNonQuery() == 1;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool DeleteIllnessData(Illness illness)
         {
-            throw new NotImplementedException();
+            if (illness.IllnessID > 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(
+                    "DELETE FROM T_Illnesses WHERE illnessID = @illnessID",
+                    this.Connection
+                );
+                command.Parameters.Add("@illnessID", DbType.Int64).Value = illness.IllnessID;
+                return command.ExecuteNonQuery() == 1;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
