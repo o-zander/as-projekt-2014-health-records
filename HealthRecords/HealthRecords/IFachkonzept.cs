@@ -16,7 +16,11 @@ namespace HealthRecords
      bool UpdatePatient(Patient patient);
      bool UpdateIllness(Illness illness);
      bool LinkPatientIllness(Patient patient,Illness illness);
+     bool UnLinkPatientIllness(Patient patient, Illness illness);
      bool DeletePatient(Patient patient);
      bool DeleteIllness(Illness illness);
+     Illness[] GetPatientIllnesses(Patient patient);
+     Patient[] GetIllnessPatients(Illness illness);
+
   }
 }

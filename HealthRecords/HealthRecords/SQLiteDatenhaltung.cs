@@ -95,6 +95,14 @@ namespace HealthRecords
             ).ExecuteReader();
         }
 
+        private SQLiteDataReader Select(string table, string[] fields, string innerjoin, string joinon, string where)
+        {            
+            return new SQLiteCommand(
+                String.Format("SELECT {0} FROM {1} INNER JOIN {2} ON {3} WHERE {4}", String.Join(",", fields), table, innerjoin, joinon, where),
+                this.Connection
+            ).ExecuteReader();
+        }
+
         private long GetLastInsertRowID()
         {
             return (long) new SQLiteCommand("SELECT last_insert_rowid()", this.Connection).ExecuteScalar();
@@ -123,7 +131,7 @@ namespace HealthRecords
 
         public Patient[] GetPatientsData(int setSize, long lastID)
         {
-            using (SQLiteDataReader reader = this.Select("T_Patients")) 
+            using (SQLiteDataReader reader = this.Select("T_Patients",new String[1]{"*"},String.Format("patientID>{0}",lastID),setSize.ToString())) 
             {
                 List<Patient> patients = new List<Patient>();
                 while (reader.Read()) {
@@ -135,7 +143,7 @@ namespace HealthRecords
 
         public Illness[] GetIllnessesData(int setSize, long lastID)
         {
-            using (SQLiteDataReader reader = this.Select("T_Illnesses"))
+            using (SQLiteDataReader reader = this.Select("T_Illnesses",new String[1]{"*"},String.Format("illnessID>{0}",lastID),setSize.ToString())) 
             {
                 List<Illness> illnesses = new List<Illness>();
                 while (reader.Read()) {
@@ -266,6 +274,11 @@ namespace HealthRecords
             }
         }
 
+        public bool UnLinkPatientIllness(Patient patient, Illness illness)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool DeletePatientData(Patient patient)
         {
             if (patient.PatientID > 0)
@@ -297,6 +310,59 @@ namespace HealthRecords
             else
             {
                 return false;
+            }
+        }
+
+        public Illness[] GetPatientIllnessesData(Patient patient)
+        {
+            if (patient.PatientID > 0 )
+            {
+                using (SQLiteDataReader reader = this.Select("T_PatientsIllnesses AS pi",
+                                                             new String[5] { "i.illnessID", "i.name", "i.contagious", "i.lethal", "i.curable" },
+                                                             "T_Illnesses AS i",
+                                                             "pi.illnessID = i.illnessID",
+                                                             String.Format("pi.patientID={0}", patient.PatientID.ToString()) 
+                                                             )
+                      )
+                {
+                    List<Illness> illnesses = new List<Illness>();
+                    while (reader.Read())
+                    {
+                        illnesses.Add(this.GetIllnessFromReader(reader));
+                    }
+                    return illnesses.ToArray();
+                }
+            }
+            else
+            {
+                return new Illness[0];
+            }
+
+        }
+
+        public Patient[] GetIllnessPatientsData(Illness illness)
+        {
+            if (illness.IllnessID > 0)
+            {
+                using (SQLiteDataReader reader = this.Select("T_PatientsIllnesses AS pi",
+                                                             new String[4] { "p.patientID", "p.firstName", "p.lastName", "p.birthday" },
+                                                             "T_Patients AS p",
+                                                             "pi.patientID = p.patientID",
+                                                             String.Format("pi.illnessID={0}", illness.IllnessID.ToString())
+                                                             )
+                      )
+                {
+                    List<Patient> patients = new List<Patient>();
+                    while (reader.Read())
+                    {
+                        patients.Add(this.GetPatientFromReader(reader));
+                    }
+                    return patients.ToArray();
+                }
+            }
+            else
+            {
+                return new Patient[0];
             }
         }
     }

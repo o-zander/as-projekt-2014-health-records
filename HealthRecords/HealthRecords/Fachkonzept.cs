@@ -21,7 +21,7 @@ namespace HealthRecords
 
         public Illness[] GetIllnesses(int setSize, long lastID)
         {
-            throw new NotImplementedException();
+            return datenhaltung.GetIllnessesData(setSize, lastID);
         }
 
         public Patient GetPatient(long patientID)
@@ -31,7 +31,7 @@ namespace HealthRecords
 
         public Illness GetIllness(long illnessID)
         {
-            throw new NotImplementedException();
+            return datenhaltung.GetIllnessData(illnessID);
         }
 
         public long CreatePatient(Patient patient)
@@ -41,7 +41,7 @@ namespace HealthRecords
 
         public long CreateIllness(Illness illness)
         {
-            throw new NotImplementedException();
+            return datenhaltung.CreateIllnessData(illness);
         }
 
         public bool UpdatePatient(Patient patient)
@@ -51,10 +51,15 @@ namespace HealthRecords
 
         public bool UpdateIllness(Illness illness)
         {
-            throw new NotImplementedException();
+            return datenhaltung.UpdateIllnessData(illness);
         }
 
         public bool LinkPatientIllness(Patient patient, Illness illness)
+        {
+            return datenhaltung.LinkPatientIllnessData(patient, illness);
+        }
+
+        public bool UnLinkPatientIllness(Patient patient, Illness illness)
         {
             throw new NotImplementedException();
         }
@@ -66,7 +71,17 @@ namespace HealthRecords
 
         public bool DeleteIllness(Illness illness)
         {
-            throw new NotImplementedException();
+            return datenhaltung.DeleteIllnessData(illness);
+        }
+
+        public Illness[] GetPatientIllnesses(Patient patient)
+        {
+            return datenhaltung.GetPatientIllnessesData(patient);
+        }
+
+        public Patient[] GetIllnessPatients(Illness illness)
+        {
+            return datenhaltung.GetIllnessPatientsData(illness);
         }
     }
 }

@@ -70,6 +70,11 @@ namespace HealthRecords
             throw new NotImplementedException();
         }
 
+        public bool UnLinkPatientIllness(Patient patient, Illness illness)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool DeletePatient(Patient patient)
         {
             throw new NotImplementedException();
@@ -79,5 +84,16 @@ namespace HealthRecords
         {
             throw new NotImplementedException();
         }
+
+        public Illness[] GetPatientIllnesses(Patient patient)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Patient[] GetIllnessPatients(Illness illness)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
