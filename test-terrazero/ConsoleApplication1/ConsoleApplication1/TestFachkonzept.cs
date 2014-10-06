@@ -85,11 +85,19 @@ namespace ConsoleApplication1
 
         public bool UpdatePatient(Patient patient)
         {
+            if (patient.FirstName == "error")
+            {
+                return false;
+            }
             return true;
         }
 
         public bool UpdateIllness(Illness illness)
         {
+            if (illness.Name == "error")
+            {
+                return false;
+            }
             return true;
         }
 

@@ -44,11 +44,11 @@ namespace ConsoleApplication1
 
         public bool TestBool()
         {
-            if (this.stringInput == "j")
+            if (this.stringInput == "j" || this.stringInput == "true" || this.stringInput == "y" || this.stringInput == "yes")
             {
                 this.BoolInput = true;
             }
-            else if (this.stringInput == "n")
+            else if (this.stringInput == "n" || this.stringInput == "false" || this.stringInput == "no")
             {
                 this.BoolInput = false;
             }
@@ -87,12 +87,17 @@ namespace ConsoleApplication1
 
         public static ConIO Input()
         {
-            return new ConIO(Console.ReadLine());
+            return ConIO.Input("", "");
         }
 
         public static ConIO Input(string description)
         {
-            ConIO.Output(description + ": ");
+            return ConIO.Input(description, ": ");
+        }
+
+        public static ConIO Input(string description, string seperator)
+        {
+            ConIO.Output(description + seperator);
             return new ConIO(Console.ReadLine());
         }
 

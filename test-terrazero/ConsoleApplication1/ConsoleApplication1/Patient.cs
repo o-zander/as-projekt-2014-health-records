@@ -27,7 +27,7 @@ namespace ConsoleApplication1
 
         public override string ToString()
         {
-            return this.FirstName + " " + this.LastName + " : " + this.Birthday;
+            return this.FirstName + " " + this.LastName + " : " + this.Birthday.ToShortDateString();
         }
 
     }

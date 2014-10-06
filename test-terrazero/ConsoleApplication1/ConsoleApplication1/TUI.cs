@@ -88,30 +88,6 @@ namespace ConsoleApplication1
             return false;
         }
 
-        //######################### Menu ###############################
-        /*
-         * Menu strucktur
-         * 
-         * root 
-         *     patients 
-         *         patient
-         *             patient-illness
-         *     illnesses
-         *         illness 
-         *             illness-patient
-         */
-        /*
-         * Pages
-         * 
-         * none
-         * patientlist
-         * illnesslist
-         * patient-illnesslist
-         * illness-patientlist
-         * patient
-         * illness
-         */
-
         //settings
         private int PagerNumber { get; set; }
 
@@ -140,9 +116,14 @@ namespace ConsoleApplication1
             this.CurrentMenu = menu;
             this.CurrentPage = page;
             // set the pager to 0 by list page call
-            if (page == "patientlist" || page == "illnesslist")
+            switch (page)
             {
-                this.CurrentPager = 0;
+                case "patientlist" :
+                case "illnesslist" :
+                case "patient-illnesslist" : 
+                case "illness-patientlist" :
+                    this.CurrentPager = 0;
+                    break;
             }
         }
 
@@ -177,6 +158,8 @@ namespace ConsoleApplication1
             {
                 case "patient-add":
                 case "illness-add":
+                case "patient-edit":
+                case "illness-edit":
                     // print no command menu
                     break;
                 default :
@@ -200,21 +183,21 @@ namespace ConsoleApplication1
                     this.PrintItem("Show Illnesses", "illnesses");
                     break;
                 case "patients":
-                    ConIO.OutputLine("Menu: Patients");
+                    ConIO.OutputLine("Menu: Root > Patients");
                     ConIO.OutputNewLine();
                     this.PrintItem("Add a Patient", "add");
                     this.PrintItem("Show Patient");
                     this.PrintItem("Go Back", "back");
                     break;
                 case "illnesses":
-                    ConIO.OutputLine("Menu: Illnesses");
+                    ConIO.OutputLine("Menu: Root > Illnesses");
                     ConIO.OutputNewLine();
                     this.PrintItem("Add a Illness", "add");
                     this.PrintItem("Show Illness");
                     this.PrintItem("Go Back", "back");
                     break;
                 case "patient":
-                    ConIO.OutputLine("Menu: Patient");
+                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.CurrentPatient.PatientID + ")");
                     ConIO.OutputNewLine();
                     this.PrintItem("Edit Patient", "edit");
                     this.PrintItem("Delete Patient", "delete");
@@ -222,7 +205,7 @@ namespace ConsoleApplication1
                     this.PrintItem("Go Back", "back");
                     break;
                 case "illness":
-                    ConIO.OutputLine("Menu: Illness");
+                    ConIO.OutputLine("Menu: Root > Illnesses > Illness(" + this.CurrentIllness.IllnessID + ")");
                     ConIO.OutputNewLine();
                     this.PrintItem("Edit Illness", "edit");
                     this.PrintItem("Delete Illness", "delete");
@@ -230,14 +213,14 @@ namespace ConsoleApplication1
                     this.PrintItem("Go Back", "back");
                     break;
                 case "patient-illness" :
-                    ConIO.OutputLine("Menu: Patient - Illnesses");
+                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.CurrentPatient.PatientID + ") > Illnesses");
                     ConIO.OutputNewLine();
                     this.PrintItem("Remove a Illness", "remove");
                     this.PrintItem("Add a Illness to the Patient", "add");
                     this.PrintItem("Go Back", "back");
                     break;
                 case "illness-patient" :
-                    ConIO.OutputLine("Menu: Illness - Patients");
+                    ConIO.OutputLine("Menu: Root > Illnesses > Illness(" + this.CurrentIllness.IllnessID + ") > Patients");
                     ConIO.OutputNewLine();
                     this.PrintItem("Remove a Patient", "remove");
                     this.PrintItem("Add a Patient to the Illness", "add");
@@ -245,15 +228,41 @@ namespace ConsoleApplication1
                     break;
                 case "patient-add":
                     Console.Clear();
-                    ConIO.OutputLine("Menu: Add Patient");
+                    ConIO.OutputLine("Menu: Root > Patients >> Add Patient");
                     ConIO.OutputNewLine();
                     this.PrintItem("Abort new Patient", "cancel");
                     break;
                 case "illness-add":
                     Console.Clear();
-                    ConIO.OutputLine("Menu: Add Illness");
+                    ConIO.OutputLine("Menu: Root > Illnesses >> Add Illness");
                     ConIO.OutputNewLine();
                     this.PrintItem("Abort new Illness", "cancel");
+                    break;
+                case "patient-edit" :
+                    Console.Clear();
+                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.CurrentPatient.PatientID + ") >> Edit Patient");
+                    ConIO.OutputNewLine();
+                    this.PrintItem("Abort edit Patient", "cancel");
+                    break;
+                case "illness-edit" :
+                    Console.Clear();
+                    ConIO.OutputLine("Menu: Root > Illnesses > Illness(" + this.CurrentIllness.IllnessID + ") >> Edit Illness");
+                    ConIO.OutputNewLine();
+                    this.PrintItem("Abort edit Illness", "cancel");
+                    break;
+                case "patient-illness-add" :
+                    Console.Clear();
+                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.CurrentPatient.PatientID + ") > Illnesses >> Add Illness");
+                    ConIO.OutputNewLine();
+                    this.PrintItem("Add illness to patient");
+                    this.PrintItem("Abort add illness", "back");
+                    break;
+                case "patient-illness-remove" :
+                    Console.Clear();
+                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.CurrentPatient.PatientID + ") > Illnesses >> Remove Illness");
+                    ConIO.OutputNewLine();
+                    this.PrintItem("Remove illness from patient");
+                    this.PrintItem("Abort remove illness", "back");
                     break;
             }
         }
@@ -301,7 +310,7 @@ namespace ConsoleApplication1
                     ConIO.OutputLine("ID: " + this.CurrentPatient.PatientID);
                     ConIO.OutputLine("Firstname: " + this.CurrentPatient.FirstName);
                     ConIO.OutputLine("Lastname: " + this.CurrentPatient.LastName);
-                    ConIO.OutputLine("Birthdate: " + this.CurrentPatient.Birthday);
+                    ConIO.OutputLine("Birthdate: " + this.CurrentPatient.Birthday.ToShortDateString());
                     ConIO.OutputNewLine();
                     break;
                 // print a list of illnesses
@@ -321,8 +330,8 @@ namespace ConsoleApplication1
                     ConIO.OutputLine("ID: " + this.CurrentIllness.IllnessID);
                     ConIO.OutputLine("Name: " + this.CurrentIllness.Name);
                     ConIO.OutputLine("Contagious: " + this.CurrentIllness.Contagious);
-                    ConIO.OutputLine("Curable: " + this.CurrentIllness.Curable);
                     ConIO.OutputLine("Lethal: " + this.CurrentIllness.Lethal);
+                    ConIO.OutputLine("Curable: " + this.CurrentIllness.Curable);
                     ConIO.OutputNewLine();
                     break;
                 // print a list of illnesses associated by a loaded patient
@@ -348,10 +357,18 @@ namespace ConsoleApplication1
                     ConIO.OutputNewLine();
                     break;
                 case "patient-add" :
-                    this.CurrentCommand = "add";
-                    break;
                 case "illness-add" :
                     this.CurrentCommand = "add";
+                    break;
+                case "patient-edit" :
+                case "illness-edit" :
+                    this.CurrentCommand = "edit";
+                    break;
+                case "patient-illness-add" :
+                    this.CurrentCommand = "add";
+                    break;
+                case "patient-illness-remove" :
+                    this.CurrentCommand = "remove";
                     break;
             }
         }
@@ -364,7 +381,8 @@ namespace ConsoleApplication1
         {
             if (input == "cancel")
             {
-                this.GoToPage("patients", "patientlist", "");
+                ConIO.OutputLine("Abort!");
+                this.GoTo("patients", "patientlist");
                 this.CurrentPatient = null;
                 return true;
             }
@@ -379,8 +397,45 @@ namespace ConsoleApplication1
         {
             if (input == "cancel")
             {
-                this.GoToPage("patients", "patientlist", "");
+                ConIO.OutputLine("Abort!");
+                this.GoTo("patients", "patientlist");
                 this.CurrentPatient = null;
+                return true;
+            }
+            return false;
+        }
+
+        /*
+         * Test if the edit-patient command was canceled by user
+         * Return true if canceled
+         */
+        public bool CancelEditPatient(string input)
+        {
+            if (input == "cancel")
+            {
+                ConIO.OutputLine("Abort!");
+                this.GoTo("patient", "patient");
+
+                // load a fresh patient to undo the edits by user
+                this.CurrentPatient = this.Fachkonzept.GetPatient(this.CurrentPatient.PatientID);
+                return true;
+            }
+            return false;
+        }
+
+        /*
+         * Test if the edit-illness command was canceled by user
+         * Return true if canceled
+         */
+        public bool CancelEditIllness(string input)
+        {
+            if (input == "cancel")
+            {
+                ConIO.OutputLine("Abort!");
+                this.GoTo("illness", "illness");
+
+                // load a fresh illness to undo the edits by user
+                this.CurrentIllness = this.Fachkonzept.GetIllness(this.CurrentIllness.IllnessID);
                 return true;
             }
             return false;
@@ -418,6 +473,14 @@ namespace ConsoleApplication1
                             return true;
                         case "illnesses":
                             this.GoTo("illnesses", "illnesslist");
+                            return true;
+                        case "back" :
+                            ConIO.OutputNewLine();
+                            if (ConIO.Confirm("Exit programm?"))
+                            {
+                                ConIO.OutputLine("Programm beendet!");
+                                Environment.Exit(0);
+                            }
                             return true;
                     }
                     break;
@@ -476,6 +539,9 @@ namespace ConsoleApplication1
                 case "patient":
                     switch (command.StringInput)
                     {
+                        case "edit" :
+                            this.GoTo("patient-edit", "patient-edit");
+                            break;
                         case "delete" :
                             ConIO.OutputNewLine();
                             if (ConIO.Confirm("Delete Patient (" + this.CurrentPatient.PatientID + ")?"))
@@ -501,6 +567,9 @@ namespace ConsoleApplication1
                 case "illness":
                     switch (command.StringInput)
                     {
+                        case "edit" :
+                            this.GoTo("illness-edit", "illness-edit");
+                            break;
                         case "delete":
                             ConIO.OutputNewLine();
                             if (ConIO.Confirm("Delete Illness (" + this.CurrentIllness.IllnessID + ")?"))
@@ -526,6 +595,12 @@ namespace ConsoleApplication1
                 case "patient-illness" :
                     switch (command.StringInput)
                     {
+                        case "add" :
+                            this.GoTo("patient-illness-add", "illnesslist");
+                            break;
+                        case "remove" :
+                            this.GoTo("patient-illness-remove", "patient-illnesslist");
+                            return true;
                         case "back" :
                             this.GoTo("patient", "patient");
                             return true;
@@ -576,7 +651,7 @@ namespace ConsoleApplication1
                                 if (!isDate)
                                 {
                                     ConIO.OutputNewLine();
-                                    ConIO.OutputError("ERROR: Date Format Exception!");
+                                    ConIO.OutputError("ERROR: Wrong date format!");
                                     ConIO.OutputNewLine();
                                 }
                             } while (!isDate);
@@ -589,17 +664,24 @@ namespace ConsoleApplication1
                                 return true;
                             }
 
+                            // confirm the new patient from the user before save the patient
                             ConIO.OutputNewLine();
                             this.PrintMenuPage("patient-add", "patient");
                             if (ConIO.Confirm("Add the Patient?"))
                             {
-                                this.Fachkonzept.CreatePatient(this.CurrentPatient);
+                                if (!this.Fachkonzept.CreatePatient(this.CurrentPatient))
+                                {
+                                    ConIO.OutputError("ERROR: Can not create patient!");
+                                    this.GoTo("patients", "patientlist");
+                                    return true;
+                                }
                             }
                             else
                             {
                                 this.GoTo("patients", "patientlist");
                                 return true;
                             }
+
                             this.GoTo("patient", "patient");
                             return true;
                     }
@@ -622,7 +704,7 @@ namespace ConsoleApplication1
                             // set the Contagious field of the new illness
                             do 
                             {
-                                input = ConIO.Input("Is Illness Contagious?");
+                                input = ConIO.Input("Is Illness Contagious?(j/n)");
                             } while (!input.TestBool() && input.StringInput != "cancel");
                             if (this.CancelAddIllness(input.StringInput)) return true;
                             this.CurrentIllness.Contagious = input.BoolInput;
@@ -630,7 +712,7 @@ namespace ConsoleApplication1
                             // set the Lethal field of the new illness
                             do
                             {
-                                input = ConIO.Input("Is Illness Lethal?");
+                                input = ConIO.Input("Is Illness Lethal?(j/n)");
                             } while (!input.TestBool() && input.StringInput != "cancel");
                             if (this.CancelAddIllness(input.StringInput)) return true;
                             this.CurrentIllness.Lethal = input.BoolInput;
@@ -638,29 +720,225 @@ namespace ConsoleApplication1
                             // set the Curable field of the new illness
                             do
                             {
-                                input = ConIO.Input("Is Illness Curable?");
+                                input = ConIO.Input("Is Illness Curable?(j/n)");
                             } while (!input.TestBool() && input.StringInput != "cancel");
                             if (this.CancelAddIllness(input.StringInput)) return true;
                             this.CurrentIllness.Curable = input.BoolInput;
 
+                            // confirm the new illness from the user before save the illness
                             ConIO.OutputNewLine();
                             this.PrintMenuPage("illness-add", "illness");
                             if (ConIO.Confirm("Add the Illness?"))
                             {
-                                this.Fachkonzept.CreateIllness(this.CurrentIllness);
+                                if (!this.Fachkonzept.CreateIllness(this.CurrentIllness))
+                                {
+                                    ConIO.OutputError("ERROR: Can not create illness!");
+                                    this.GoTo("illnesses", "illnesslist");
+                                    return true;
+                                }
                             }
                             else
                             {
                                 this.GoTo("illnesses", "illnesslist");
                                 return true;
                             }
+
                             this.GoTo("illness", "illness");
                             return true;
+                    }
+                    break;
+                case "patient-edit" :
+                    switch (command.StringInput)
+                    {
+                        case "edit" :
+                            ConIO input = null;
+
+                            // edit the FirstName field of the current patient
+                            input = this.InputEditField(this.CurrentPatient.FirstName, "Edit the First name");
+                            if (this.CancelEditPatient(input.StringInput)) return true;
+                            if (input.StringInput.Length != 0) this.CurrentPatient.FirstName = input.StringInput;
+                            ConIO.OutputNewLine();
+
+                            // edit the LastName field of the current patient
+                            input = this.InputEditField(this.CurrentPatient.LastName, "Edit the Last name");
+                            if (this.CancelEditPatient(input.StringInput)) return true;
+                            if (input.StringInput.Length != 0) this.CurrentPatient.LastName = input.StringInput;
+                            ConIO.OutputNewLine();
+
+                            // edit the Birthday field of the current patient
+                            bool isDate = false;
+                            do
+                            {
+                                input = this.InputEditField(this.CurrentPatient.Birthday.ToShortDateString(), "Edit the Birthday");
+                                if (this.CancelEditPatient(input.StringInput)) return true;
+                                if (input.StringInput.Length == 0) break;
+                                isDate = input.TestDate();
+                                if (!isDate)
+                                {
+                                    ConIO.OutputNewLine();
+                                    ConIO.OutputError("ERROR: Wrong date format");
+                                    ConIO.OutputNewLine();
+                                }
+                            } while (!isDate);
+                            if (isDate) this.CurrentPatient.Birthday = input.DateInput;
+                            ConIO.OutputNewLine();
+
+                            // confirm the edit patient from the user before update the patient
+                            ConIO.OutputNewLine();
+                            this.PrintMenuPage("patient-edit", "patient");
+                            if (ConIO.Confirm("Edit the Patient?"))
+                            {
+                                if (!this.Fachkonzept.UpdatePatient(this.CurrentPatient))
+                                {
+                                    ConIO.OutputError("ERROR: Can not update patient!");
+                                    this.CurrentPatient = this.Fachkonzept.GetPatient(this.CurrentPatient.PatientID);
+                                }
+                            }
+                            else
+                            {
+                                this.CurrentPatient = this.Fachkonzept.GetPatient(this.CurrentPatient.PatientID);
+                            }
+
+                            this.GoTo("patient", "patient");
+                            return true;
+                    }
+                    break;
+                case "illness-edit" :
+                    switch (command.StringInput)
+                    {
+                        case "edit" :
+                            ConIO input = null;
+
+                            // edit the Name field of the current illness
+                            input = this.InputEditField(this.CurrentIllness.Name, "Edit the name");
+                            if (this.CancelEditIllness(input.StringInput)) return true;
+                            if (input.StringInput.Length != 0) this.CurrentIllness.Name = input.StringInput;
+                            ConIO.OutputNewLine();
+
+                            // edit the Contagious field of the current illness
+                            do
+                            {
+                                input = this.InputEditField(this.CurrentIllness.Contagious.ToString(), "Is Illness Contagious?(j/n)");
+                            } while (!input.TestBool() && input.StringInput != "cancel" && input.StringInput.Length != 0);
+                            if (this.CancelEditIllness(input.StringInput)) return true;
+                            if (input.StringInput.Length != 0) this.CurrentIllness.Contagious = input.BoolInput;
+                            ConIO.OutputNewLine();
+
+                            // edit the Lethal field of the current illness
+                            do
+                            {
+                                input = this.InputEditField(this.CurrentIllness.Lethal.ToString(), "Is Illness Lethal?(j/n)");
+                            } while (!input.TestBool() && input.StringInput != "cancel" && input.StringInput.Length != 0);
+                            if (this.CancelEditIllness(input.StringInput)) return true;
+                            if (input.StringInput.Length != 0) this.CurrentIllness.Lethal = input.BoolInput;
+                            ConIO.OutputNewLine();
+
+                            // edit the Curable field of the current illness
+                            do
+                            {
+                                input = this.InputEditField(this.CurrentIllness.Curable.ToString(), "Is Illness Curable?(j/n)");
+                            } while (!input.TestBool() && input.StringInput != "cancel" && input.StringInput.Length != 0);
+                            if (this.CancelEditIllness(input.StringInput)) return true;
+                            if (input.StringInput.Length != 0) this.CurrentIllness.Curable = input.BoolInput;
+
+                            // confirm the edit illness from the user before update the illness
+                            ConIO.OutputNewLine();
+                            this.PrintMenuPage("illness-edit", "illness");
+                            if (ConIO.Confirm("Edit the Illness?"))
+                            {
+                                if (!this.Fachkonzept.UpdateIllness(this.CurrentIllness))
+                                {
+                                    ConIO.OutputError("ERROR: Can not update Illness!");
+                                    this.CurrentIllness = this.Fachkonzept.GetIllness(this.CurrentIllness.IllnessID);
+                                }
+                            }
+                            else
+                            {
+                                this.CurrentIllness = this.Fachkonzept.GetIllness(this.CurrentIllness.IllnessID);
+                            }
+
+                            this.GoTo("illness", "illness");
+                            break;
+                    }
+                    break;
+                case "patient-illness-add" :
+                    switch (command.StringInput)
+                    {
+                        case "back" :
+                            this.GoTo("patient-illness", "patient-illnesslist");
+                            return true;
+                        default :
+                            if (command.TestInt())
+                            {
+                                Illness illness = this.Fachkonzept.GetIllness(command.IntInput);
+                                if (illness == null)
+                                {
+                                    ConIO.OutputNewLine();
+                                    ConIO.OutputError("ERROR: Can not load Illness!");
+                                }
+                                else
+                                {
+                                    if (!this.Fachkonzept.LinkPatientIllness(this.CurrentPatient, illness))
+                                    {
+                                        ConIO.OutputNewLine();
+                                        ConIO.OutputError("ERROR: Can not link Illness to Patient!");
+                                    }
+                                    else
+                                    {
+                                        ConIO.OutputLine("Add Illness to Patient!");
+                                    }
+                                    this.GoTo("patient-illness", "patient-illnesslist");
+                                }
+                                return true;
+                            }
+                            break;
+                    }
+                    break;
+                case "patient-illness-remove" :
+                    switch (command.StringInput)
+                    {
+                        case "back" :
+                            this.GoTo("patient-illness", "patient-illnesslist");
+                            return true;
+                        default :
+                            if (command.TestInt())
+                            {
+                                Illness illness = this.Fachkonzept.GetIllness(command.IntInput);
+                                if (illness == null)
+                                {
+                                    ConIO.OutputNewLine();
+                                    ConIO.OutputError("ERROR: Can not load Illness!");
+                                }
+                                else
+                                {
+                                    if (!this.Fachkonzept.DelinkPatientIllness(this.CurrentPatient, illness))
+                                    {
+                                        ConIO.OutputNewLine();
+                                        ConIO.OutputError("ERROR: Can not delink Illness from Patient!");
+                                    }
+                                    else
+                                    {
+                                        ConIO.OutputLine("Remove Illness from Patient!");
+                                    }
+                                    this.GoTo("patient-illness", "patient-illnesslist");
+                                }
+                                return true;
+                            }
+                            break;
                     }
                     break;
             }
             return false;
         }
+
+        public ConIO InputEditField(string current, string description)
+        {
+            ConIO.OutputLine(description);
+            ConIO.OutputLine("Enter an empty text to not change the field.");
+            return ConIO.Input(current, " > ");
+        }
+
+
 
         /*
          * Execute commands that depends on page
