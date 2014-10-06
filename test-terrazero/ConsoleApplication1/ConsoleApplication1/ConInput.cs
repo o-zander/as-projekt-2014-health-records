@@ -22,6 +22,7 @@ namespace ConsoleApplication1
         public int IntInput { get; set; }
         public char CharInput { get; set; }
         public bool BoolInput { get; set; }
+        public DateTime DateInput { get; set; }
 
         public ConIO(string input)
         {
@@ -56,6 +57,19 @@ namespace ConsoleApplication1
                 return false;
             }
             return true;
+        }
+
+        public bool TestDate()
+        {
+            try
+            {
+                this.DateInput = Convert.ToDateTime(this.stringInput);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public bool TestChar()

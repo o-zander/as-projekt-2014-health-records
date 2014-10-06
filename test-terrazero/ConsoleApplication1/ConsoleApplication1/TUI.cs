@@ -15,9 +15,12 @@ namespace ConsoleApplication1
         {
             this.Fachkonzept = fachkonzept;
             this.CurrentMenu = "root";
-            this.Number = 5;
+            this.PagerNumber = 5;
         }
 
+        /*
+         * start the console application
+         */
         public void run()
         {
             while (true)
@@ -26,31 +29,45 @@ namespace ConsoleApplication1
             }
         }
 
-        public void PrePage()
-        {
-            this.PrintMenu();
-            this.PrintCommand("Clear the Console", "clear");
-            this.PrintCommand("Close the Console", "exit");
-            ConIO.OutputNewLine();
-        }
-
+        /*
+         * Build the entire page 
+         */
         public void Page()
         {
-            this.PrePage();
+            this.PrintMenu();
+            ConIO.OutputNewLine();
             this.PrintMenuPage(this.CurrentMenu, this.CurrentPage);
-            ConIO command = ConIO.Input("Input");
+            ConIO command = null;
+            if (this.CurrentCommand == null)
+            {
+                command = ConIO.Input("Input");
+            }
+            else
+            {
+                command = new ConIO(this.CurrentCommand);
+                this.CurrentCommand = null;
+            }
             this.Command(command);
         }
 
+        /*
+         * Execute a command through all command functions
+         */
         public void Command(ConIO command) 
         {
             if (this.CommandCommand(command)) return;
             if (this.MenuCommand(command)) return;
             if (this.PageCommand(command)) return;
+
+            // if no function returned true the command was not found
             ConIO.OutputNewLine();
             ConIO.OutputLine("Befehl '" + command.StringInput + "' konnte nicht gefunden werden.");
         }
 
+        /*
+         * Execute the normal console commands
+         * Return true if the command was found
+         */
         public bool CommandCommand(ConIO command)
         {
             switch (command.StringInput)
@@ -62,16 +79,9 @@ namespace ConsoleApplication1
                 case "clear" :
                     Console.Clear();
                     return true;
-                default :
-                    return false;
             }
+            return false;
         }
-
-        public void PrintCommand(string item, string command)
-        {
-            ConIO.OutputLine(item + " ( " + command + " )");
-        }
-
 
         //######################### Menu ###############################
         /*
@@ -97,19 +107,29 @@ namespace ConsoleApplication1
          * illness
          */
 
+        //settings
+        private int PagerNumber { get; set; }
+
+        //current vars
         private string CurrentMenu { get; set; }
         private string CurrentPage { get; set; }
         private int CurrentPager { get; set; }
         private Patient CurrentPatient { get; set; }
         private Illness CurrentIllness { get; set; }
+        private string CurrentCommand { get; set; }
 
-        private int Number { get; set; }
-
+        /*
+         * @see this.GoTo(string, string)
+         * goto the defined menu
+         */
         public void GoTo(string menu)
         {
             this.GoTo(menu, "none");
         }
 
+        /*
+         * goto the defined menu and page
+         */
         public void GoTo(string menu, string page)
         {
             this.CurrentMenu = menu;
@@ -121,19 +141,49 @@ namespace ConsoleApplication1
             }
         }
 
-        public void GoToPage(string menu, string page)
+        /*
+         * @see this.GoTo(string, string)
+         * command - the command which execute, ignore the input of the user
+         */
+        public void GoToPage(string menu, string page, string command)
         {
             this.GoTo(menu, page);
-            this.Page();
+            this.CurrentCommand = command;
         }
 
+        /*
+         * The function to print the full menu in order
+         */
         public void PrintMenu()
         {
             ConIO.OutputNewLine();
             this.PrintActionMenu();
+            this.PrintCommandMenu();
             this.PrintPageMenu();
         }
 
+        /*
+         * Print the normal commands, depends on current menu
+         * e.g. exit and clear the console
+         */
+        public void PrintCommandMenu()
+        {
+            switch (this.CurrentMenu)
+            {
+                case "patient-add":
+                case "illness-add":
+                    // print no command menu
+                    break;
+                default :
+                    this.PrintItem("Clear the Console", "clear");
+                    this.PrintItem("Close the Console", "exit");
+                    break;
+            }
+        }
+
+        /*
+         * Print the commands for the normal menu, depends on current menu
+         */
         public void PrintActionMenu()
         {
             switch (this.CurrentMenu)
@@ -188,14 +238,25 @@ namespace ConsoleApplication1
                     this.PrintItem("Add a Patient to the Illness", "add");
                     this.PrintItem("Go Back", "back");
                     break;
-                case "patient-add" :
+                case "patient-add":
+                    Console.Clear();
                     ConIO.OutputLine("Menu: Add Patient");
                     ConIO.OutputNewLine();
                     this.PrintItem("Abort new Patient", "cancel");
                     break;
+                case "illness-add":
+                    Console.Clear();
+                    ConIO.OutputLine("Menu: Add Illness");
+                    ConIO.OutputNewLine();
+                    this.PrintItem("Abort new Illness", "cancel");
+                    break;
             }
         }
 
+        /*
+         * Print commands depends of the current page 
+         * e.g. the pager functions
+         */
         public void PrintPageMenu()
         {
             switch (this.CurrentPage) 
@@ -210,6 +271,10 @@ namespace ConsoleApplication1
             }
         }
 
+        /*
+         * Print a page depends on menu and page
+         * e.g. for a full patient to show or a list of illnesses
+         */
         public void PrintMenuPage(string menu, string page)
         {
             switch (page)
@@ -217,7 +282,7 @@ namespace ConsoleApplication1
                 case "patientlist" :
                     // TODO die maximale page anzahl 
                     ConIO.OutputLine("Page " + (this.CurrentPager + 1) + " / " + "5");
-                    Patient[] patients = this.Fachkonzept.GetPatients(this.CurrentPager, this.Number);
+                    Patient[] patients = this.Fachkonzept.GetPatients(this.CurrentPager, this.PagerNumber);
                     for (int i = 0; i < patients.Length; i++)
                     {
                         ConIO.OutputLine("(" + patients[i].PatientID + ") " + patients[i]);
@@ -235,7 +300,7 @@ namespace ConsoleApplication1
                 case "illnesslist" :
                     // TODO die maximale page anzahl 
                     ConIO.OutputLine("Page " + (this.CurrentPager + 1) + " / " + "5");
-                    Illness[] illnesses = this.Fachkonzept.GetIllnesses(this.CurrentPager, this.Number);
+                    Illness[] illnesses = this.Fachkonzept.GetIllnesses(this.CurrentPager, this.PagerNumber);
                     for (int i = 0; i < illnesses.Length; i++)
                     {
                         ConIO.OutputLine("(" + illnesses[i].IllnessID + ") " + illnesses[i]);
@@ -254,7 +319,7 @@ namespace ConsoleApplication1
                 case "patient-illnesslist" :
                     // TODO die maximale page anzahl 
                     ConIO.OutputLine("Page " + (this.CurrentPager + 1) + " / " + "5");
-                    Illness[] patientillnesses = this.Fachkonzept.GetIllnessesToPatient(this.CurrentPatient, this.CurrentPager, this.Number);
+                    Illness[] patientillnesses = this.Fachkonzept.GetIllnessesToPatient(this.CurrentPatient, this.CurrentPager, this.PagerNumber);
                     for (int i = 0; i < patientillnesses.Length; i++)
                     {
                         ConIO.OutputLine("(" + patientillnesses[i].IllnessID + ") " + patientillnesses[i]);
@@ -264,7 +329,7 @@ namespace ConsoleApplication1
                 case "illness-patientlist" :
                     // TODO die maximale page anzahl 
                     ConIO.OutputLine("Page " + (this.CurrentPager + 1) + " / " + "5");
-                    Patient[] illnesspatients = this.Fachkonzept.GetPatientsToIllness(this.CurrentIllness, this.CurrentPager, this.Number);
+                    Patient[] illnesspatients = this.Fachkonzept.GetPatientsToIllness(this.CurrentIllness, this.CurrentPager, this.PagerNumber);
                     for (int i = 0; i < illnesspatients.Length; i++)
                     {
                         ConIO.OutputLine("(" + illnesspatients[i].PatientID + ") " + illnesspatients[i]);
@@ -272,69 +337,64 @@ namespace ConsoleApplication1
                     ConIO.OutputNewLine();
                     break;
                 case "patient-add" :
-                    this.CurrentPatient = new Patient();
-                    ConIO input = null;
-
-                    input = ConIO.Input("Patient First Name");
-                    if (input.StringInput == "cancel")
-                    {
-                        this.CancelAddPatient();
-                        break;
-                    }
-                    this.CurrentPatient.FirstName = input.StringInput;
-
-                    input = ConIO.Input("Patient Last Name");
-                    if (input.StringInput == "cancel")
-                    {
-                        this.CancelAddPatient();
-                        break;
-                    }
-                    this.CurrentPatient.LastName = input.StringInput;
-
-                    input = ConIO.Input("Patient Birthday");
-                    if (input.StringInput == "cancel")
-                    {
-                        this.CancelAddPatient();
-                        break;
-                    }
-                    this.CurrentPatient.Birthday = Convert.ToDateTime(input.StringInput);
-
-                    ConIO.OutputNewLine();
-                    this.PrintMenuPage(this.CurrentMenu, "patient");
-                    if (ConIO.Confirm("Add the Patient?"))
-                    {
-                        this.Fachkonzept.CreatePatient(this.CurrentPatient);
-                    }
-                    else
-                    {
-                        this.GoToPage("patients", "patientlist");
-                    }
-                    this.GoToPage("patient", "patient");
+                    this.CurrentCommand = "add";
+                    break;
+                case "illness-add" :
+                    this.CurrentCommand = "add";
                     break;
             }
         }
 
-        public void CancelAddPatient()
+        /*
+         * Test if the add-patient command was canceled by user
+         * Return true if canceled
+         */
+        public bool CancelAddPatient(string input)
         {
-            this.GoTo("patients", "patientlist");
-            this.CurrentPatient = null;
+            if (input == "cancel")
+            {
+                this.GoToPage("patients", "patientlist", "");
+                this.CurrentPatient = null;
+                return true;
+            }
+            return false;
         }
 
+        /*
+         * Test if the add-illness command was canceled by user
+         * Return true if canceled
+         */
+        public bool CancelAddIllness(string input)
+        {
+            if (input == "cancel")
+            {
+                this.GoToPage("patients", "patientlist", "");
+                this.CurrentPatient = null;
+                return true;
+            }
+            return false;
+        }
+
+        /*
+         * Print a menu item which has no defined command
+         */
         public void PrintItem(string item)
         {
             ConIO.OutputLine(item + " ( ### )");
         }
 
-        private void PrintItem(string item, int number)
-        {
-            ConIO.OutputLine(item + " ( " + Menu.GetChar(number) + " )");
-        }
-
+        /*
+         * print a single menu item with command
+         */
         private void PrintItem(string item, string command)
         {
             ConIO.OutputLine(item + " ( " + command + " )");
         }
 
+        /*
+         * Execute commands that depends on menu
+         * Return true if the command was found
+         */
         public bool MenuCommand(ConIO command)
         {
             switch (this.CurrentMenu)
@@ -395,7 +455,7 @@ namespace ConsoleApplication1
                     switch (command.StringInput)
                     {
                         case "add":
-                            // TODO add a illness
+                            this.GoTo("illness-add", "illness-add");
                             return true;
                         case "back":
                             this.GoTo("root");
@@ -468,14 +528,122 @@ namespace ConsoleApplication1
                             return true;
                     }
                     break;
+                case "patient-add":
+                    switch (command.StringInput)
+                    {
+                        case "add" :
+                            this.CurrentPatient = new Patient();
+                            ConIO input = null;
+
+                            input = ConIO.Input("Patient First Name");
+                            if (this.CancelAddPatient(input.StringInput)) return true;
+                            this.CurrentPatient.FirstName = input.StringInput;
+
+                            input = ConIO.Input("Patient Last Name");
+                            if (this.CancelAddPatient(input.StringInput)) return true;
+                            this.CurrentPatient.LastName = input.StringInput;
+
+                            bool isDate = false;
+                            do 
+                            {
+                                input = ConIO.Input("Patient Birthday (dd.mm.YYYY)");
+                                if (this.CancelAddPatient(input.StringInput))
+                                {
+                                    isDate = false;
+                                    break;
+                                }
+                                isDate = input.TestDate();
+                                if (!isDate)
+                                {
+                                    ConIO.OutputNewLine();
+                                    ConIO.OutputError("ERROR: Date Format Exception!");
+                                    ConIO.OutputNewLine();
+                                }
+                            } while (!isDate);
+                            if (isDate)
+                            {
+                                this.CurrentPatient.Birthday = input.DateInput;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+
+                            ConIO.OutputNewLine();
+                            this.PrintMenuPage("patient-add", "patient");
+                            if (ConIO.Confirm("Add the Patient?"))
+                            {
+                                this.Fachkonzept.CreatePatient(this.CurrentPatient);
+                            }
+                            else
+                            {
+                                this.GoTo("patients", "patientlist");
+                                return true;
+                            }
+                            this.GoTo("patient", "patient");
+                            return true;
+                    }
+                    break;
+                case "illness-add" :
+                    switch (command.StringInput)
+                    {
+                        case "add" :
+                            this.CurrentIllness = new Illness();
+                            ConIO input = null;
+
+                            input = ConIO.Input("Illness Name");
+                            if (this.CancelAddIllness(input.StringInput)) return true;
+                            this.CurrentIllness.Name = input.StringInput;
+
+                            do 
+                            {
+                                input = ConIO.Input("Is Illness Contagious?");
+                            } while (!input.TestBool() && input.StringInput != "cancel");
+                            if (this.CancelAddIllness(input.StringInput)) return true;
+                            this.CurrentIllness.Contagious = input.BoolInput;
+
+                            do
+                            {
+                                input = ConIO.Input("Is Illness Lethal?");
+                            } while (!input.TestBool() && input.StringInput != "cancel");
+                            if (this.CancelAddIllness(input.StringInput)) return true;
+                            this.CurrentIllness.Lethal = input.BoolInput;
+
+                            do
+                            {
+                                input = ConIO.Input("Is Illness Curable?");
+                            } while (!input.TestBool() && input.StringInput != "cancel");
+                            if (this.CancelAddIllness(input.StringInput)) return true;
+                            this.CurrentIllness.Curable = input.BoolInput;
+
+                            ConIO.OutputNewLine();
+                            this.PrintMenuPage("illness-add", "illness");
+                            if (ConIO.Confirm("Add the Illness?"))
+                            {
+                                this.Fachkonzept.CreateIllness(this.CurrentIllness);
+                            }
+                            else
+                            {
+                                this.GoTo("illnesses", "illnesslist");
+                                return true;
+                            }
+                            this.GoTo("illness", "illness");
+                            return true;
+                    }
+                    break;
             }
             return false;
         }
 
+        /*
+         * Execute commands that depends on page
+         * Return true if the command was found
+         */
         public bool PageCommand(ConIO command)
         {
             switch (this.CurrentPage)
             {
+                // all lists pages have pager
                 case "patientlist" : 
                 case "illnesslist" :
                 case "illness-patientlist":
