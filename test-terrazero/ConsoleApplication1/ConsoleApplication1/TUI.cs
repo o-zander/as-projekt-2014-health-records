@@ -34,10 +34,13 @@ namespace ConsoleApplication1
          */
         public void Page()
         {
+            // print the current menu and current page
             this.PrintMenu();
             ConIO.OutputNewLine();
             this.PrintMenuPage(this.CurrentMenu, this.CurrentPage);
             ConIO command = null;
+
+            // if a current command is given than skip the user input
             if (this.CurrentCommand == null)
             {
                 command = ConIO.Input("Input");
@@ -47,6 +50,8 @@ namespace ConsoleApplication1
                 command = new ConIO(this.CurrentCommand);
                 this.CurrentCommand = null;
             }
+
+            // execute the command
             this.Command(command);
         }
 
@@ -279,6 +284,7 @@ namespace ConsoleApplication1
         {
             switch (page)
             {
+                // print a list of patients
                 case "patientlist" :
                     // TODO die maximale page anzahl 
                     ConIO.OutputLine("Page " + (this.CurrentPager + 1) + " / " + "5");
@@ -289,6 +295,7 @@ namespace ConsoleApplication1
                     }
                     ConIO.OutputNewLine();
                     break;
+                // print a loaded patient
                 case "patient" :
                     ConIO.OutputLine("Patient:");
                     ConIO.OutputLine("ID: " + this.CurrentPatient.PatientID);
@@ -297,6 +304,7 @@ namespace ConsoleApplication1
                     ConIO.OutputLine("Birthdate: " + this.CurrentPatient.Birthday);
                     ConIO.OutputNewLine();
                     break;
+                // print a list of illnesses
                 case "illnesslist" :
                     // TODO die maximale page anzahl 
                     ConIO.OutputLine("Page " + (this.CurrentPager + 1) + " / " + "5");
@@ -307,6 +315,7 @@ namespace ConsoleApplication1
                     }
                     ConIO.OutputNewLine();
                     break;
+                // print a loaded illness
                 case "illness" :
                     ConIO.OutputLine("Illness:");
                     ConIO.OutputLine("ID: " + this.CurrentIllness.IllnessID);
@@ -316,6 +325,7 @@ namespace ConsoleApplication1
                     ConIO.OutputLine("Lethal: " + this.CurrentIllness.Lethal);
                     ConIO.OutputNewLine();
                     break;
+                // print a list of illnesses associated by a loaded patient
                 case "patient-illnesslist" :
                     // TODO die maximale page anzahl 
                     ConIO.OutputLine("Page " + (this.CurrentPager + 1) + " / " + "5");
@@ -326,6 +336,7 @@ namespace ConsoleApplication1
                     }
                     ConIO.OutputNewLine();
                     break;
+                // print a list of patients associated by a loaded illness
                 case "illness-patientlist" :
                     // TODO die maximale page anzahl 
                     ConIO.OutputLine("Page " + (this.CurrentPager + 1) + " / " + "5");
@@ -535,14 +546,23 @@ namespace ConsoleApplication1
                             this.CurrentPatient = new Patient();
                             ConIO input = null;
 
-                            input = ConIO.Input("Patient First Name");
-                            if (this.CancelAddPatient(input.StringInput)) return true;
+                            // set the FirstName field of the new patient
+                            do 
+                            {
+                                input = ConIO.Input("Patient First Name");
+                                if (this.CancelAddPatient(input.StringInput)) return true;
+                            } while (input.StringInput.Length == 0);
                             this.CurrentPatient.FirstName = input.StringInput;
 
-                            input = ConIO.Input("Patient Last Name");
-                            if (this.CancelAddPatient(input.StringInput)) return true;
+                            // set the LastName field of the new patient
+                            do 
+                            {
+                                input = ConIO.Input("Patient Last Name");
+                                if (this.CancelAddPatient(input.StringInput)) return true;
+                            } while (input.StringInput.Length == 0);
                             this.CurrentPatient.LastName = input.StringInput;
 
+                            // set the Birthday field of the new patient
                             bool isDate = false;
                             do 
                             {
@@ -591,10 +611,15 @@ namespace ConsoleApplication1
                             this.CurrentIllness = new Illness();
                             ConIO input = null;
 
-                            input = ConIO.Input("Illness Name");
-                            if (this.CancelAddIllness(input.StringInput)) return true;
+                            // set the Name field of the new illness
+                            do
+                            {
+                                input = ConIO.Input("Illness Name");
+                                if (this.CancelAddIllness(input.StringInput)) return true;
+                            } while (input.StringInput.Length == 0);
                             this.CurrentIllness.Name = input.StringInput;
 
+                            // set the Contagious field of the new illness
                             do 
                             {
                                 input = ConIO.Input("Is Illness Contagious?");
@@ -602,6 +627,7 @@ namespace ConsoleApplication1
                             if (this.CancelAddIllness(input.StringInput)) return true;
                             this.CurrentIllness.Contagious = input.BoolInput;
 
+                            // set the Lethal field of the new illness
                             do
                             {
                                 input = ConIO.Input("Is Illness Lethal?");
@@ -609,6 +635,7 @@ namespace ConsoleApplication1
                             if (this.CancelAddIllness(input.StringInput)) return true;
                             this.CurrentIllness.Lethal = input.BoolInput;
 
+                            // set the Curable field of the new illness
                             do
                             {
                                 input = ConIO.Input("Is Illness Curable?");
