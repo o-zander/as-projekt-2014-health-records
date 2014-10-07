@@ -30,5 +30,10 @@ namespace ConsoleApplication1
             return this.FirstName + " " + this.LastName + " : " + this.Birthday.ToShortDateString();
         }
 
+        public string Describe()
+        {
+            return this.FirstName + " " + this.LastName;
+        }
+
     }
 }

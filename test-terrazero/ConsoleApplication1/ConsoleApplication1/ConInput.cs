@@ -120,6 +120,7 @@ namespace ConsoleApplication1
         {
             ConIO.OutputLine(text);
             ConIO.Input("Confirm with enter");
+            ConIO.OutputNewLine();
         }
 
         public static bool Confirm(string message)

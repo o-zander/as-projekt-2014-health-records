@@ -103,6 +103,10 @@ namespace ConsoleApplication1
 
         public bool LinkPatientIllness(Patient patient, Illness illness)
         {
+            if (patient.PatientID == 80 || illness.IllnessID == 80)
+            {
+                return false;
+            }
             return true;
         }
 
@@ -126,6 +130,10 @@ namespace ConsoleApplication1
 
         public bool DelinkPatientIllness(Patient patient, Illness illness)
         {
+            if (patient.PatientID == 80 || illness.IllnessID == 80)
+            {
+                return false;
+            }
             return true;
         }
 
