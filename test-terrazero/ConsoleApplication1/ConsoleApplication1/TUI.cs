@@ -200,7 +200,7 @@ namespace ConsoleApplication1
                     this.PrintItem("Go Back", "back");
                     break;
                 case "patient":
-                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.CurrentPatient.Describe() + ")");
+                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.DescribePatient(this.CurrentPatient) + ")");
                     ConIO.OutputNewLine();
                     this.PrintItem("Edit Patient", "edit");
                     this.PrintItem("Delete Patient", "delete");
@@ -208,7 +208,7 @@ namespace ConsoleApplication1
                     this.PrintItem("Go Back", "back");
                     break;
                 case "illness":
-                    ConIO.OutputLine("Menu: Root > Illnesses > Illness(" + this.CurrentIllness.Describe() + ")");
+                    ConIO.OutputLine("Menu: Root > Illnesses > Illness(" + this.DescribeIllness(this.CurrentIllness) + ")");
                     ConIO.OutputNewLine();
                     this.PrintItem("Edit Illness", "edit");
                     this.PrintItem("Delete Illness", "delete");
@@ -216,14 +216,14 @@ namespace ConsoleApplication1
                     this.PrintItem("Go Back", "back");
                     break;
                 case "patient-illness" :
-                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.CurrentPatient.Describe() + ") > Illnesses");
+                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.DescribePatient(this.CurrentPatient) + ") > Illnesses");
                     ConIO.OutputNewLine();
                     this.PrintItem("Remove a Illness", "remove");
                     this.PrintItem("Add a Illness to the Patient", "add");
                     this.PrintItem("Go Back", "back");
                     break;
                 case "illness-patient" :
-                    ConIO.OutputLine("Menu: Root > Illnesses > Illness(" + this.CurrentIllness.Describe() + ") > Patients");
+                    ConIO.OutputLine("Menu: Root > Illnesses > Illness(" + this.DescribeIllness(this.CurrentIllness) + ") > Patients");
                     ConIO.OutputNewLine();
                     this.PrintItem("Remove a Patient", "remove");
                     this.PrintItem("Add a Patient to the Illness", "add");
@@ -240,35 +240,35 @@ namespace ConsoleApplication1
                     this.PrintItem("Abort new Illness", "cancel");
                     break;
                 case "patient-edit" :
-                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.CurrentPatient.Describe() + ") >> Edit Patient");
+                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.DescribePatient(this.CurrentPatient) + ") >> Edit Patient");
                     ConIO.OutputNewLine();
                     this.PrintItem("Abort edit Patient", "cancel");
                     break;
                 case "illness-edit" :
-                    ConIO.OutputLine("Menu: Root > Illnesses > Illness(" + this.CurrentIllness.Describe() + ") >> Edit Illness");
+                    ConIO.OutputLine("Menu: Root > Illnesses > Illness(" + this.DescribeIllness(this.CurrentIllness) + ") >> Edit Illness");
                     ConIO.OutputNewLine();
                     this.PrintItem("Abort edit Illness", "cancel");
                     break;
                 case "patient-illness-add":
-                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.CurrentPatient.Describe() + ") > Illnesses >> Add Illness");
+                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.DescribePatient(this.CurrentPatient) + ") > Illnesses >> Add Illness");
                     ConIO.OutputNewLine();
                     this.PrintItem("Add illness to patient");
                     this.PrintItem("Abort add illness", "back");
                     break;
                 case "patient-illness-remove":
-                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.CurrentPatient.Describe() + ") > Illnesses >> Remove Illness");
+                    ConIO.OutputLine("Menu: Root > Patients > Patient(" + this.DescribePatient(this.CurrentPatient) + ") > Illnesses >> Remove Illness");
                     ConIO.OutputNewLine();
                     this.PrintItem("Remove illness from patient");
                     this.PrintItem("Abort remove illness", "back");
                     break;
                 case "illness-patient-add":
-                    ConIO.OutputLine("Menu: Root > Illnesses > Illness(" + this.CurrentIllness.Describe() + ") > Patients >> Add Patient");
+                    ConIO.OutputLine("Menu: Root > Illnesses > Illness(" + this.DescribeIllness(this.CurrentIllness) + ") > Patients >> Add Patient");
                     ConIO.OutputNewLine();
                     this.PrintItem("Add patient to illness");
                     this.PrintItem("Abort add patient", "back");
                     break;
                 case "illness-patient-remove":
-                    ConIO.OutputLine("Menu: Root > Illnesses > Illness(" + this.CurrentIllness.Describe() + ") > Patients >> Remove Patient");
+                    ConIO.OutputLine("Menu: Root > Illnesses > Illness(" + this.DescribeIllness(this.CurrentIllness) + ") > Patients >> Remove Patient");
                     ConIO.OutputNewLine();
                     this.PrintItem("Remove patient from illness");
                     this.PrintItem("Abort remove patient", "back");
@@ -555,7 +555,7 @@ namespace ConsoleApplication1
                             this.GoTo("patient-edit", "patient-edit");
                             return true;
                         case "delete" :
-                            if (ConIO.Confirm("Delete Patient (" + this.CurrentPatient.Describe() + ")?"))
+                            if (ConIO.Confirm("Delete Patient (" + this.DescribePatient(this.CurrentPatient) + ")?"))
                             {
                                 if (this.Fachkonzept.DeletePatient(this.CurrentPatient))
                                 {
@@ -563,7 +563,7 @@ namespace ConsoleApplication1
                                 }
                                 else
                                 {
-                                    ConIO.OutputError("ERROR: Can not delete Patient (" + this.CurrentPatient.Describe() + ")!");
+                                    ConIO.OutputError("ERROR: Can not delete Patient (" + this.DescribePatient(this.CurrentPatient) + ")!");
                                 }
                             }
                             return true;
@@ -582,7 +582,7 @@ namespace ConsoleApplication1
                             this.GoTo("illness-edit", "illness-edit");
                             return true;
                         case "delete":
-                            if (ConIO.Confirm("Delete Illness (" + this.CurrentIllness.Describe() + ")?"))
+                            if (ConIO.Confirm("Delete Illness (" + this.DescribeIllness(this.CurrentIllness) + ")?"))
                             {
                                 if (this.Fachkonzept.DeleteIllness(this.CurrentIllness))
                                 {
@@ -590,7 +590,7 @@ namespace ConsoleApplication1
                                 }
                                 else
                                 {
-                                    ConIO.OutputError("ERROR: Can not delete Illness (" + this.CurrentIllness.Describe() + ")!");
+                                    ConIO.OutputError("ERROR: Can not delete Illness (" + this.DescribeIllness(this.CurrentIllness) + ")!");
                                 }
                             }
                             return true;
@@ -1068,6 +1068,22 @@ namespace ConsoleApplication1
                 row += " : Lethal";
             }
             return row;
+        }
+
+        /*
+         * Describe a Patient short
+         */
+        public string DescribePatient(Patient patient)
+        {
+            return patient.FirstName + " " + patient.LastName;
+        }
+
+        /*
+         * Describe a Illness Short
+         */
+        public string DescribeIllness(Illness illness)
+        {
+            return illness.Name;
         }
 
     }

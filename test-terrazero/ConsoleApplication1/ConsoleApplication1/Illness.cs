@@ -45,10 +45,5 @@ namespace ConsoleApplication1
             return back;
         }
 
-        public string Describe()
-        {
-            return this.Name;
-        }
-
     }
 }
