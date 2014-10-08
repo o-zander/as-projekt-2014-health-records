@@ -95,10 +95,10 @@ namespace HealthRecords
             ).ExecuteReader();
         }
 
-        private SQLiteDataReader Select(string table, string[] fields, string innerjoin, string joinon, string where)
+        private SQLiteDataReader Select(string table, string[] fields, string innerJoin, string joinOn, string where)
         {            
             return new SQLiteCommand(
-                String.Format("SELECT {0} FROM {1} INNER JOIN {2} ON {3} WHERE {4}", String.Join(",", fields), table, innerjoin, joinon, where),
+                String.Format("SELECT {0} FROM {1} INNER JOIN {2} ON {3} WHERE {4}", String.Join(",", fields), table, innerJoin, joinOn, where),
                 this.Connection
             ).ExecuteReader();
         }
@@ -142,19 +142,6 @@ namespace HealthRecords
             } 
         }
 
-        public Patient[] GetPatientsData(int setSize, long lastID)
-        {
-            // not used in GUI anymore
-            using (SQLiteDataReader reader = this.Select("T_Patients",new String[1]{"*"},String.Format("patientID>{0}",lastID),setSize.ToString())) 
-            {
-                List<Patient> patients = new List<Patient>();
-                while (reader.Read()) {
-                    patients.Add(this.GetPatientFromReader(reader));
-                }
-                return patients.ToArray();
-            }
-        }
-
         public Illness[] GetIllnessesData()
         {
             using (SQLiteDataReader reader = this.Select("T_Illnesses"))
@@ -168,13 +155,26 @@ namespace HealthRecords
             }
         }
 
-        public Illness[] GetIllnessesData(int setSize, long lastID)
+        public Patient[] GetPatientsData(int page, int pageSize)
         {
-            // not used in GUI anymore
-            using (SQLiteDataReader reader = this.Select("T_Illnesses",new String[1]{"*"},String.Format("illnessID>{0}",lastID),setSize.ToString())) 
+            using (SQLiteDataReader reader = this.Select("T_Patients", new string[1] {"*"}, "1", String.Format("{0}, {1}", page * pageSize, pageSize)))
+            {
+                List<Patient> patients = new List<Patient>();
+                while (reader.Read())
+                {
+                    patients.Add(this.GetPatientFromReader(reader));
+                }
+                return patients.ToArray();
+            } 
+        }
+
+        public Illness[] GetIllnessesData(int page, int pageSize)
+        {
+            using (SQLiteDataReader reader = this.Select("T_Illnesses", new string[1] {"*"}, "1", String.Format("{0}, {1}", page * pageSize, pageSize)))
             {
                 List<Illness> illnesses = new List<Illness>();
-                while (reader.Read()) {
+                while (reader.Read())
+                {
                     illnesses.Add(this.GetIllnessFromReader(reader));
                 }
                 return illnesses.ToArray();
@@ -209,15 +209,7 @@ namespace HealthRecords
                 command.Parameters.Add("@firstName", DbType.String).Value = patient.FirstName;
                 command.Parameters.Add("@lastName", DbType.String).Value = patient.LastName;
                 command.Parameters.Add("@birthday", DbType.DateTime).Value = patient.Birthday;
-                if (command.ExecuteNonQuery() == 1)
-                {
-                    patient.PatientID = this.GetLastInsertRowID();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return command.ExecuteNonQuery() == 1 ? (patient.PatientID = this.GetLastInsertRowID()) > 0 : false;
             }
             else
             {
@@ -238,15 +230,7 @@ namespace HealthRecords
                 command.Parameters.Add("@contagious", DbType.Boolean).Value = illness.Contagious;
                 command.Parameters.Add("@lethal", DbType.Boolean).Value = illness.Lethal;
                 command.Parameters.Add("@curable", DbType.Boolean).Value = illness.Curable;
-                if (command.ExecuteNonQuery() == 1)
-                {
-                    illness.IllnessID = this.GetLastInsertRowID();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return command.ExecuteNonQuery() == 1 ? (illness.IllnessID = this.GetLastInsertRowID()) > 0 : false;
             }
             else
             {
@@ -332,7 +316,7 @@ namespace HealthRecords
                     this.Connection
                 );
                 command.Parameters.Add("@patientID", DbType.Int64).Value = patient.PatientID;
-                return command.ExecuteNonQuery() == 1;
+                return command.ExecuteNonQuery() == 1 ? (patient.PatientID = 0) == 0 : false;
             }
             else
             {
@@ -349,7 +333,7 @@ namespace HealthRecords
                     this.Connection
                 );
                 command.Parameters.Add("@illnessID", DbType.Int64).Value = illness.IllnessID;
-                return command.ExecuteNonQuery() == 1;
+                return command.ExecuteNonQuery() == 1 ? (illness.IllnessID = 0) == 0 : false;
             }
             else
             {
@@ -365,7 +349,7 @@ namespace HealthRecords
                                                              new String[5] { "i.illnessID", "i.name", "i.contagious", "i.lethal", "i.curable" },
                                                              "T_Illnesses AS i",
                                                              "pi.illnessID = i.illnessID",
-                                                             String.Format("pi.patientID={0}", patient.PatientID.ToString()) 
+                                                             String.Format("pi.patientID = {0}", patient.PatientID) 
                                                              )
                       )
                 {
@@ -392,7 +376,7 @@ namespace HealthRecords
                                                              new String[4] { "p.patientID", "p.firstName", "p.lastName", "p.birthday" },
                                                              "T_Patients AS p",
                                                              "pi.patientID = p.patientID",
-                                                             String.Format("pi.illnessID={0}", illness.IllnessID.ToString())
+                                                             String.Format("pi.illnessID = {0}", illness.IllnessID)
                                                              )
                       )
                 {
@@ -408,6 +392,16 @@ namespace HealthRecords
             {
                 return new Patient[0];
             }
+        }
+
+        public int GetPatientsCountData()
+        {
+            return (int) new SQLiteCommand("SELECT COUNT(*) FROM T_Patients", this.Connection).ExecuteScalar();
+        }
+
+        public int GetIllnessesCountData()
+        {
+            return (int) new SQLiteCommand("SELECT COUNT(*) FROM T_Illnesses", this.Connection).ExecuteScalar();
         }
     }
 }

@@ -9,8 +9,8 @@ namespace HealthRecords
     {
         Patient[] GetPatientsData();
         Illness[] GetIllnessesData();
-        Patient[] GetPatientsData(int setSize, long lastID);
-        Illness[] GetIllnessesData(int setSize, long lastID);
+        Patient[] GetPatientsData(int page, int pageSize);
+        Illness[] GetIllnessesData(int page, int pageSize);
         Patient GetPatientData(long patientID);
         Illness GetIllnessData(long illnessID);
         bool CreatePatientData(Patient patient);
@@ -23,6 +23,7 @@ namespace HealthRecords
         bool DeleteIllnessData(Illness illness);
         Illness[] GetPatientIllnessesData(Patient patient);
         Patient[] GetIllnessPatientsData(Illness illness);
-
+        int GetPatientsCountData();
+        int GetIllnessesCountData();
     }
 }
