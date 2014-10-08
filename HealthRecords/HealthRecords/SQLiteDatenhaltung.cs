@@ -304,7 +304,21 @@ namespace HealthRecords
 
         public bool UnLinkPatientIllness(Patient patient, Illness illness)
         {
-            throw new NotImplementedException();
+            if (patient.PatientID > 0 && illness.IllnessID > 0)
+            {
+                SQLiteCommand command = new SQLiteCommand(
+                    @"DELETE FROM T_PatientsIllnesses
+                      WHERE patientID = @patientID AND illnessID = @illnessID)",
+                    this.Connection
+                );
+                command.Parameters.Add("@patientID", DbType.Int64).Value = patient.PatientID;
+                command.Parameters.Add("@illnessID", DbType.Int64).Value = illness.IllnessID;
+                return command.ExecuteNonQuery() == 1;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool DeletePatientData(Patient patient)
