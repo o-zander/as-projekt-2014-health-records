@@ -11,8 +11,6 @@ namespace ConsoleApplication1
 
         Patient[] GetPatients();
         Illness[] GetIllnesses();
-        Patient[] GetPatients(int pager, int number);
-        Illness[] GetIllnesses(int pager, int number);
         Patient GetPatient(int id);
         Illness GetIllness(int id);
         Boolean CreatePatient(Patient patient);
@@ -24,6 +22,8 @@ namespace ConsoleApplication1
         Boolean DelinkPatientIllness(Patient patient, Illness illness);
         Illness[] GetIllnessesToPatient(Patient patient, int pager, int number);
         Patient[] GetPatientsToIllness(Illness illness, int pager, int number);
+        Patient[] GetPatients(int pager, int number);
+        Illness[] GetIllnesses(int pager, int number);
         // \new
         Boolean DeletePatient(Patient patient);
         Boolean DeleteIllness(Illness illness);
