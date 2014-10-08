@@ -41,10 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConInput.cs" />
+    <Compile Include="ConIO.cs" />
     <Compile Include="IFachkonzept.cs" />
     <Compile Include="Illness.cs" />
-    <Compile Include="Menu.cs" />
     <Compile Include="Patient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
