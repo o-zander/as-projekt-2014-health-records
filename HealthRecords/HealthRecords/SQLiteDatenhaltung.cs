@@ -26,7 +26,8 @@ namespace HealthRecords
             )",
             @"T_PatientsIllnesses (
 	            patientID INTEGER NOT NULL,
-	            illnessID INTEGER NOT NULL
+	            illnessID INTEGER NOT NULL,
+                PRIMARY KEY(patientID, illnessID)
             )"
         };
 
@@ -96,7 +97,7 @@ namespace HealthRecords
         }
 
         private SQLiteDataReader Select(string table, string[] fields, string innerJoin, string joinOn, string where)
-        {            
+        {
             return new SQLiteCommand(
                 String.Format("SELECT {0} FROM {1} INNER JOIN {2} ON {3} WHERE {4}", String.Join(",", fields), table, innerJoin, joinOn, where),
                 this.Connection
@@ -105,27 +106,27 @@ namespace HealthRecords
 
         private long GetLastInsertRowID()
         {
-            return (long) new SQLiteCommand("SELECT last_insert_rowid()", this.Connection).ExecuteScalar();
+            return (long)new SQLiteCommand("SELECT last_insert_rowid()", this.Connection).ExecuteScalar();
         }
 
         private Patient GetPatientFromReader(SQLiteDataReader reader)
         {
             return new Patient(
-                (long) reader["patientID"],
-                (string) reader["firstName"],
-                (string) reader["lastName"],
-                (DateTime) reader["birthday"]
+                (long)reader["patientID"],
+                (string)reader["firstName"],
+                (string)reader["lastName"],
+                (DateTime)reader["birthday"]
             );
         }
 
         private Illness GetIllnessFromReader(SQLiteDataReader reader)
         {
             return new Illness(
-                (long) reader["illnessID"],
-                (string) reader["name"],
-                (bool) reader["contagious"],
-                (bool) reader["lethal"],
-                (bool) reader["curable"]
+                (long)reader["illnessID"],
+                (string)reader["name"],
+                (bool)reader["contagious"],
+                (bool)reader["lethal"],
+                (bool)reader["curable"]
             );
         }
 
@@ -139,7 +140,7 @@ namespace HealthRecords
                     patients.Add(this.GetPatientFromReader(reader));
                 }
                 return patients.ToArray();
-            } 
+            }
         }
 
         public Illness[] GetIllnessesData()
@@ -157,7 +158,7 @@ namespace HealthRecords
 
         public Patient[] GetPatientsData(int page, int pageSize)
         {
-            using (SQLiteDataReader reader = this.Select("T_Patients", new string[1] {"*"}, "1", String.Format("{0}, {1}", page * pageSize, pageSize)))
+            using (SQLiteDataReader reader = this.Select("T_Patients", new string[1] { "*" }, "1", String.Format("{0}, {1}", page * pageSize, pageSize)))
             {
                 List<Patient> patients = new List<Patient>();
                 while (reader.Read())
@@ -165,12 +166,12 @@ namespace HealthRecords
                     patients.Add(this.GetPatientFromReader(reader));
                 }
                 return patients.ToArray();
-            } 
+            }
         }
 
         public Illness[] GetIllnessesData(int page, int pageSize)
         {
-            using (SQLiteDataReader reader = this.Select("T_Illnesses", new string[1] {"*"}, "1", String.Format("{0}, {1}", page * pageSize, pageSize)))
+            using (SQLiteDataReader reader = this.Select("T_Illnesses", new string[1] { "*" }, "1", String.Format("{0}, {1}", page * pageSize, pageSize)))
             {
                 List<Illness> illnesses = new List<Illness>();
                 while (reader.Read())
@@ -287,6 +288,15 @@ namespace HealthRecords
         {
             if (patient.PatientID > 0 && illness.IllnessID > 0)
             {
+                SQLiteCommand exists = new SQLiteCommand(
+                    @"SELECT COUNT(*) FROM T_PatientsIllnesses
+                    WHERE (patientID = @patientID) AND (illnessID = @illnessID)",
+                    this.Connection
+                );
+                exists.Parameters.Add("@patientID", DbType.Int64).Value = patient.PatientID;
+                exists.Parameters.Add("@illnessID", DbType.Int64).Value = illness.IllnessID;
+                if (Int32.Parse(exists.ExecuteScalar().ToString()) > 0)
+                    return false;
                 SQLiteCommand command = new SQLiteCommand(
                     @"INSERT INTO T_PatientsIllnesses (patientID, illnessID)
                       VALUES (@patientID, @illnessID)",
@@ -308,7 +318,7 @@ namespace HealthRecords
             {
                 SQLiteCommand command = new SQLiteCommand(
                     @"DELETE FROM T_PatientsIllnesses
-                      WHERE patientID = @patientID AND illnessID = @illnessID)",
+                      WHERE (patientID = @patientID) AND (illnessID = @illnessID)",
                     this.Connection
                 );
                 command.Parameters.Add("@patientID", DbType.Int64).Value = patient.PatientID;
@@ -357,13 +367,13 @@ namespace HealthRecords
 
         public Illness[] GetPatientIllnessesData(Patient patient)
         {
-            if (patient.PatientID > 0 )
+            if (patient.PatientID > 0)
             {
                 using (SQLiteDataReader reader = this.Select("T_PatientsIllnesses AS pi",
                                                              new String[5] { "i.illnessID", "i.name", "i.contagious", "i.lethal", "i.curable" },
                                                              "T_Illnesses AS i",
                                                              "pi.illnessID = i.illnessID",
-                                                             String.Format("pi.patientID = {0}", patient.PatientID) 
+                                                             String.Format("pi.patientID = {0}", patient.PatientID)
                                                              )
                       )
                 {
@@ -410,12 +420,12 @@ namespace HealthRecords
 
         public int GetPatientsCountData()
         {
-            return (int) new SQLiteCommand("SELECT COUNT(*) FROM T_Patients", this.Connection).ExecuteScalar();
+            return Int32.Parse(new SQLiteCommand("SELECT COUNT(*) FROM T_Patients", this.Connection).ExecuteScalar().ToString());
         }
 
         public int GetIllnessesCountData()
         {
-            return (int) new SQLiteCommand("SELECT COUNT(*) FROM T_Illnesses", this.Connection).ExecuteScalar();
+            return Int32.Parse(new SQLiteCommand("SELECT COUNT(*) FROM T_Illnesses", this.Connection).ExecuteScalar().ToString());
         }
     }
 }

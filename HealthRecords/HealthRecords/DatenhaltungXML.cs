@@ -52,8 +52,11 @@ namespace HealthRecords
             throw new NotImplementedException();
         }
 
-        public Patient[] GetPatientsData(int setSize, long lastID)
+        public Patient[] GetPatientsData(int page, int number)
         {
+            //ehemals lastid setsize
+            throw new NotImplementedException();
+            /*
             Patient[] patients = new Patient[setSize];
             if (File.Exists("Patients.xml"))
             {
@@ -87,12 +90,12 @@ namespace HealthRecords
                 }
             }
             return patients.Where(x => !(x == null)).ToArray();
+             */ 
         }
 
-        public Illness[] GetIllnessesData(int setSize, long lastID)
+        public Illness[] GetIllnessesData(int page, int number)
         {
-            Illness[] illnesses = new Illness[setSize];
-            return illnesses;
+            throw new NotImplementedException();        
         }
 
         public Patient GetPatientData(long patientID)
@@ -188,8 +191,7 @@ namespace HealthRecords
 
         public Illness GetIllnessData(long illnessID)
         {
-            Illness illness = new Illness();
-            return illness;
+            throw new NotImplementedException();
         }
 
         public bool CreatePatientData(Patient patient)
@@ -328,6 +330,14 @@ namespace HealthRecords
         }
 
         public Patient[] GetIllnessPatientsData(Illness illness)
+        {
+            throw new NotImplementedException();
+        }
+        public int GetPatientsCountData()
+        {
+            throw new NotImplementedException();
+        }
+        public int GetIllnessesCountData()
         {
             throw new NotImplementedException();
         }
