@@ -103,7 +103,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CachedFachkonzept.cs" />
-    <Compile Include="DatenhaltungDB.cs" />
     <Compile Include="DatenhaltungXML.cs" />
     <Compile Include="Fachkonzept.cs" />
     <Compile Include="Form1.cs">

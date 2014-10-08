@@ -42,6 +42,16 @@ namespace HealthRecords
             }
         }
 
+        public Patient[] GetPatientsData()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Illness[] GetIllnessesData()
+        {
+            throw new NotImplementedException();
+        }
+
         public Patient[] GetPatientsData(int setSize, long lastID)
         {
             Patient[] patients = new Patient[setSize];
@@ -182,7 +192,7 @@ namespace HealthRecords
             return illness;
         }
 
-        public long CreatePatientData(Patient patient)
+        public bool CreatePatientData(Patient patient)
         {
             //Patient patient1 = new Patient(){ FirstName="Max", LastName="Mustermann", Birthday=DateTime.Today, PatientID=1}
 
@@ -202,11 +212,12 @@ namespace HealthRecords
                                                       )
                                     );
                 patientsElement.Save("Patients.xml");
-                return lastPatientID;
+                patient.PatientID = lastPatientID;
+                return true;
                 }
                 catch (Exception)
                 {
-                    return -1;                    
+                    return false;                    
                 }                
             }
             else
@@ -226,19 +237,20 @@ namespace HealthRecords
                         writer.WriteEndElement();
 
                         writer.WriteEndElement();
-                        writer.WriteEndDocument();                    
+                        writer.WriteEndDocument();
+                        patient.PatientID = lastPatientID;
                     }
-                    return lastPatientID;
+                    return true;
                 }
                 catch (Exception)
                 {
 
-                    return -1;
+                    return false;
                 }
             }            
         }
 
-        public long CreateIllnessData(Illness illness)
+        public bool CreateIllnessData(Illness illness)
         {
             throw new NotImplementedException();
         }

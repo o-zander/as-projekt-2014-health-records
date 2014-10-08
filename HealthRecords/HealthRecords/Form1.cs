@@ -29,22 +29,12 @@ namespace HealthRecords
 
         private void GetIllnesses()
         {
-            int setSize = 5;
-            long lastID = 0;
-            illnesses.Clear();
-            Illness[] results;
-            results = fachkonzept.GetIllnesses(setSize, lastID);
-            while (results.Length > 0)
-            {
-                lastID = results.Last().IllnessID;
-                illnesses.AddRange(results);
-                results = fachkonzept.GetIllnesses(setSize, lastID);
-            }
-            illnesses.AddRange(results);                  
+            illnesses.Clear();      
+            illnesses = fachkonzept.GetIllnesses().ToList();            
             illnessBindingSource.DataSource = illnesses;
             illnessBindingSource.ResetBindings(false);
 
-            // get matching patients
+            // get matching patients for first illness
             Illness illness = illnesses.First();
             matchingPatients = fachkonzept.GetIllnessPatients(illness).ToList();
             matchingPatientBindingSource.DataSource = matchingPatients;
@@ -53,19 +43,8 @@ namespace HealthRecords
 
         private void GetPatients()
         {
-            int setSize = 5;
-            long lastID = 0;
             patients.Clear();
-            // get all patients
-            Patient[] results;
-            results = fachkonzept.GetPatients(setSize, lastID);
-            while (results.Length > 0)
-            {
-                lastID = results.Last().PatientID;
-                patients.AddRange(results);                
-                results = fachkonzept.GetPatients(setSize, lastID);
-            }
-            patients.AddRange(results);                
+            patients = fachkonzept.GetPatients().ToList();
             patientBindingSource.DataSource = patients;
             patientBindingSource.ResetBindings(false);
 
@@ -153,8 +132,8 @@ namespace HealthRecords
         private void createPatientBtn_Click(object sender, EventArgs e)
         {        
             Patient patient = new Patient();
-            long patientsID = fachkonzept.CreatePatient(patient);
-            patients.Add(new Patient() { PatientID = patientsID });
+            fachkonzept.CreatePatient(patient);
+            patients.Add(patient);
             patientBindingSource.ResetBindings(false);
             dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[1];
             dataGridView1.BeginEdit(false);
@@ -191,9 +170,9 @@ namespace HealthRecords
 
         private void createIllnessBtn_Click(object sender, EventArgs e)
         {
-            Illness illness = new Illness();
-            long illnessID = fachkonzept.CreateIllness(illness);
-            illnesses.Add(new Illness() { IllnessID = illnessID });
+            Illness illness = new Illness();            
+            fachkonzept.CreateIllness(illness);
+            illnesses.Add(illness);            
             illnessBindingSource.ResetBindings(false);
             dataGridView3.CurrentCell = dataGridView3.Rows[dataGridView3.Rows.Count - 1].Cells[1];
             dataGridView3.BeginEdit(false);

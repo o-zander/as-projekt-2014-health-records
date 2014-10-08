@@ -129,8 +129,22 @@ namespace HealthRecords
             );
         }
 
+        public Patient[] GetPatientsData()
+        {
+            using (SQLiteDataReader reader = this.Select("T_Patients"))
+            {
+                List<Patient> patients = new List<Patient>();
+                while (reader.Read())
+                {
+                    patients.Add(this.GetPatientFromReader(reader));
+                }
+                return patients.ToArray();
+            } 
+        }
+
         public Patient[] GetPatientsData(int setSize, long lastID)
         {
+            // not used in GUI anymore
             using (SQLiteDataReader reader = this.Select("T_Patients",new String[1]{"*"},String.Format("patientID>{0}",lastID),setSize.ToString())) 
             {
                 List<Patient> patients = new List<Patient>();
@@ -141,8 +155,22 @@ namespace HealthRecords
             }
         }
 
+        public Illness[] GetIllnessesData()
+        {
+            using (SQLiteDataReader reader = this.Select("T_Illnesses"))
+            {
+                List<Illness> illnesses = new List<Illness>();
+                while (reader.Read())
+                {
+                    illnesses.Add(this.GetIllnessFromReader(reader));
+                }
+                return illnesses.ToArray();
+            }
+        }
+
         public Illness[] GetIllnessesData(int setSize, long lastID)
         {
+            // not used in GUI anymore
             using (SQLiteDataReader reader = this.Select("T_Illnesses",new String[1]{"*"},String.Format("illnessID>{0}",lastID),setSize.ToString())) 
             {
                 List<Illness> illnesses = new List<Illness>();
@@ -169,7 +197,7 @@ namespace HealthRecords
             }
         }
 
-        public long CreatePatientData(Patient patient)
+        public bool CreatePatientData(Patient patient)
         {
             if (patient.PatientID == 0)
             {
@@ -179,17 +207,25 @@ namespace HealthRecords
                     this.Connection
                 );
                 command.Parameters.Add("@firstName", DbType.String).Value = patient.FirstName;
-                command.Parameters.Add("@lastName", DbType.String).Value = patient.FirstName;
+                command.Parameters.Add("@lastName", DbType.String).Value = patient.LastName;
                 command.Parameters.Add("@birthday", DbType.DateTime).Value = patient.Birthday;
-                return command.ExecuteNonQuery() == 1 ? (patient.PatientID = this.GetLastInsertRowID()) : -1;
+                if (command.ExecuteNonQuery() == 1)
+                {
+                    patient.PatientID = this.GetLastInsertRowID();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return -1;
+                return false;
             }
         }
 
-        public long CreateIllnessData(Illness illness)
+        public bool CreateIllnessData(Illness illness)
         {
             if (illness.IllnessID == 0)
             {
@@ -202,11 +238,19 @@ namespace HealthRecords
                 command.Parameters.Add("@contagious", DbType.Boolean).Value = illness.Contagious;
                 command.Parameters.Add("@lethal", DbType.Boolean).Value = illness.Lethal;
                 command.Parameters.Add("@curable", DbType.Boolean).Value = illness.Curable;
-                return command.ExecuteNonQuery() == 1 ? (illness.IllnessID = this.GetLastInsertRowID()) : -1;
+                if (command.ExecuteNonQuery() == 1)
+                {
+                    illness.IllnessID = this.GetLastInsertRowID();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return -1;
+                return false;
             }
         }
 
@@ -221,7 +265,7 @@ namespace HealthRecords
                     this.Connection
                 );
                 command.Parameters.Add("@firstName", DbType.String).Value = patient.FirstName;
-                command.Parameters.Add("@lastName", DbType.String).Value = patient.FirstName;
+                command.Parameters.Add("@lastName", DbType.String).Value = patient.LastName;
                 command.Parameters.Add("@birthday", DbType.DateTime).Value = patient.Birthday;
                 command.Parameters.Add("@patientID", DbType.Int64).Value = patient.PatientID;
                 return command.ExecuteNonQuery() == 1;

@@ -17,6 +17,16 @@ namespace HealthRecords
             this.IllnessCache = new Dictionary<long, Illness>();
         }
 
+        public Patient[] GetPatients()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Illness[] GetIllnesses()
+        {
+            throw new NotImplementedException();
+        }
+
         public Patient[] GetPatients(int setSize, long lastID)
         {
             throw new NotImplementedException();
@@ -45,12 +55,12 @@ namespace HealthRecords
             return this.IllnessCache[illnessID];
         }
 
-        public long CreatePatient(Patient patient)
+        public bool CreatePatient(Patient patient)
         {
             throw new NotImplementedException();
         }
 
-        public long CreateIllness(Illness illness)
+        public bool CreateIllness(Illness illness)
         {
             throw new NotImplementedException();
         }

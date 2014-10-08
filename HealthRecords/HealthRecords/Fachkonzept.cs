@@ -7,16 +7,26 @@ namespace HealthRecords
 {
     class Fachkonzept : IFachkonzept
     {
-        private IDatenhaltung datenhaltung;  
+        private IDatenhaltung datenhaltung;
 
         public Fachkonzept(IDatenhaltung datenhaltung)
         {
-            this.datenhaltung = datenhaltung;            
+            this.datenhaltung = datenhaltung;
+        }
+
+        public Patient[] GetPatients()
+        {
+            return datenhaltung.GetPatientsData();
+        }
+
+        public Illness[] GetIllnesses()
+        {
+            return datenhaltung.GetIllnessesData();
         }
 
         public Patient[] GetPatients(int setSize, long lastID)
         {
-            return datenhaltung.GetPatientsData(setSize, lastID);            
+            return datenhaltung.GetPatientsData(setSize, lastID);
         }
 
         public Illness[] GetIllnesses(int setSize, long lastID)
@@ -26,7 +36,7 @@ namespace HealthRecords
 
         public Patient GetPatient(long patientID)
         {
-            return datenhaltung.GetPatientData(patientID);            
+            return datenhaltung.GetPatientData(patientID);
         }
 
         public Illness GetIllness(long illnessID)
@@ -34,12 +44,12 @@ namespace HealthRecords
             return datenhaltung.GetIllnessData(illnessID);
         }
 
-        public long CreatePatient(Patient patient)
+        public bool CreatePatient(Patient patient)
         {
-            return datenhaltung.CreatePatientData(patient);            
+            return datenhaltung.CreatePatientData(patient);
         }
 
-        public long CreateIllness(Illness illness)
+        public bool CreateIllness(Illness illness)
         {
             return datenhaltung.CreateIllnessData(illness);
         }
