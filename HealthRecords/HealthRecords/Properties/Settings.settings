@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="UI" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">GUI</Value>
+      <Value Profile="(Default)">TUI</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -25,7 +25,7 @@ namespace HealthRecords.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("GUI")]
+        [global::System.Configuration.DefaultSettingValueAttribute("TUI")]
         public string UI {
             get {
                 return ((string)(this["UI"]));

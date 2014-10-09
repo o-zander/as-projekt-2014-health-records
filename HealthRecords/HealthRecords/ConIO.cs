@@ -114,6 +114,11 @@ namespace HealthRecords
             Console.WriteLine(text);
         }
 
+        public static void OutputLine(string text1, string text2)
+        {
+            Console.WriteLine("{0,-30}{1,-0}",text1, text2);
+        }
+
         public static void OutputNewLine()
         {
             Console.WriteLine();

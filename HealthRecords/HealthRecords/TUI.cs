@@ -323,10 +323,10 @@ namespace HealthRecords
                 // print a loaded patient
                 case "patient":
                     ConIO.OutputLine("Patient:");
-                    ConIO.OutputLine("ID: " + this.CurrentPatient.PatientID);
-                    ConIO.OutputLine("Firstname: " + this.CurrentPatient.FirstName);
-                    ConIO.OutputLine("Lastname: " + this.CurrentPatient.LastName);
-                    ConIO.OutputLine("Birthdate: " + this.CurrentPatient.Birthday.ToShortDateString());
+                    ConIO.OutputLine("ID: ", this.CurrentPatient.PatientID.ToString());
+                    ConIO.OutputLine("Firstname: ", this.CurrentPatient.FirstName);
+                    ConIO.OutputLine("Lastname: ", this.CurrentPatient.LastName);
+                    ConIO.OutputLine("Birthdate: ", this.CurrentPatient.Birthday.ToShortDateString());
                     return true;
                 // print a list of illnesses
                 case "illnesslist":
@@ -340,11 +340,11 @@ namespace HealthRecords
                 // print a loaded illness
                 case "illness":
                     ConIO.OutputLine("Illness:");
-                    ConIO.OutputLine("ID: " + this.CurrentIllness.IllnessID);
-                    ConIO.OutputLine("Name: " + this.CurrentIllness.Name);
-                    ConIO.OutputLine("Contagious: " + this.CurrentIllness.Contagious);
-                    ConIO.OutputLine("Lethal: " + this.CurrentIllness.Lethal);
-                    ConIO.OutputLine("Curable: " + this.CurrentIllness.Curable);
+                    ConIO.OutputLine("ID: ", this.CurrentIllness.IllnessID.ToString());
+                    ConIO.OutputLine("Name: ", this.CurrentIllness.Name);
+                    ConIO.OutputLine("Contagious: ", this.CurrentIllness.Contagious.ToString());
+                    ConIO.OutputLine("Lethal: ", this.CurrentIllness.Lethal.ToString());
+                    ConIO.OutputLine("Curable: ", this.CurrentIllness.Curable.ToString());
                     return true;
                 // print a list of illnesses associated by a loaded patient
                 case "patient-illnesslist":
@@ -465,7 +465,7 @@ namespace HealthRecords
          */
         public void PrintItem(string item)
         {
-            ConIO.OutputLine(item + " ( ### )");
+            ConIO.OutputLine(item, "( ### )");
         }
 
         /*
@@ -473,7 +473,8 @@ namespace HealthRecords
          */
         private void PrintItem(string item, string command)
         {
-            ConIO.OutputLine(item + " ( " + command + " )");
+            //ConIO.OutputLine(item + " ( " + command + " )");
+            ConIO.OutputLine(item,"( " + command + " )");
         }
 
         /*

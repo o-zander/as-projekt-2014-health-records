@@ -33,21 +33,10 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.patientIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.firstNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lastNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.birthdayDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.patientBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.illnessIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.contagiousDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.lethalDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.curableDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.illnessContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cancelIllnessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cancelAllIllnessesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.matchingIllnessBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.patientBtnTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.createPatientBtn = new System.Windows.Forms.Button();
             this.editPatientBtn = new System.Windows.Forms.Button();
@@ -61,37 +50,48 @@
             this.deleteIllnessBtn = new System.Windows.Forms.Button();
             this.matchIllnessBtn = new System.Windows.Forms.Button();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.dataGridView4 = new System.Windows.Forms.DataGridView();
+            this.patientContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cancelPatientMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cancelAllPatientsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.patientBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.matchingIllnessBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.illnessBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.matchingPatientBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.patientIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lastNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.birthdayDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.illnessIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contagiousDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.lethalDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.curableDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.illnessIDDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contagiousDataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.lethalDataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.curableDataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.illnessBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataGridView4 = new System.Windows.Forms.DataGridView();
             this.patientIDDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.firstNameDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lastNameDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.birthdayDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.patientContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cancelPatientMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cancelAllPatientsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.matchingPatientBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.patientBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.illnessContextMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.matchingIllnessBindingSource)).BeginInit();
             this.patientBtnTableLayoutPanel.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.illnessBtnTableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.illnessBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.patientContextMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.patientBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.matchingIllnessBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.illnessBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.matchingPatientBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -166,35 +166,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(564, 138);
             this.dataGridView1.TabIndex = 0;
             // 
-            // patientIDDataGridViewTextBoxColumn
-            // 
-            this.patientIDDataGridViewTextBoxColumn.DataPropertyName = "PatientID";
-            this.patientIDDataGridViewTextBoxColumn.HeaderText = "Patient ID";
-            this.patientIDDataGridViewTextBoxColumn.Name = "patientIDDataGridViewTextBoxColumn";
-            this.patientIDDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // firstNameDataGridViewTextBoxColumn
-            // 
-            this.firstNameDataGridViewTextBoxColumn.DataPropertyName = "FirstName";
-            this.firstNameDataGridViewTextBoxColumn.HeaderText = "Vorname";
-            this.firstNameDataGridViewTextBoxColumn.Name = "firstNameDataGridViewTextBoxColumn";
-            // 
-            // lastNameDataGridViewTextBoxColumn
-            // 
-            this.lastNameDataGridViewTextBoxColumn.DataPropertyName = "LastName";
-            this.lastNameDataGridViewTextBoxColumn.HeaderText = "Nachname";
-            this.lastNameDataGridViewTextBoxColumn.Name = "lastNameDataGridViewTextBoxColumn";
-            // 
-            // birthdayDataGridViewTextBoxColumn
-            // 
-            this.birthdayDataGridViewTextBoxColumn.DataPropertyName = "Birthday";
-            this.birthdayDataGridViewTextBoxColumn.HeaderText = "geboren am";
-            this.birthdayDataGridViewTextBoxColumn.Name = "birthdayDataGridViewTextBoxColumn";
-            // 
-            // patientBindingSource
-            // 
-            this.patientBindingSource.DataSource = typeof(HealthRecords.Patient);
-            // 
             // dataGridView2
             // 
             this.dataGridView2.AllowUserToAddRows = false;
@@ -226,45 +197,6 @@
             this.dataGridView2.Size = new System.Drawing.Size(564, 139);
             this.dataGridView2.TabIndex = 1;
             // 
-            // illnessIDDataGridViewTextBoxColumn
-            // 
-            this.illnessIDDataGridViewTextBoxColumn.DataPropertyName = "IllnessID";
-            this.illnessIDDataGridViewTextBoxColumn.FillWeight = 50F;
-            this.illnessIDDataGridViewTextBoxColumn.HeaderText = "Krankheit ID";
-            this.illnessIDDataGridViewTextBoxColumn.Name = "illnessIDDataGridViewTextBoxColumn";
-            this.illnessIDDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // contagiousDataGridViewCheckBoxColumn
-            // 
-            this.contagiousDataGridViewCheckBoxColumn.DataPropertyName = "Contagious";
-            this.contagiousDataGridViewCheckBoxColumn.FillWeight = 50F;
-            this.contagiousDataGridViewCheckBoxColumn.HeaderText = "Ansteckend";
-            this.contagiousDataGridViewCheckBoxColumn.Name = "contagiousDataGridViewCheckBoxColumn";
-            this.contagiousDataGridViewCheckBoxColumn.ReadOnly = true;
-            // 
-            // lethalDataGridViewCheckBoxColumn
-            // 
-            this.lethalDataGridViewCheckBoxColumn.DataPropertyName = "Lethal";
-            this.lethalDataGridViewCheckBoxColumn.FillWeight = 50F;
-            this.lethalDataGridViewCheckBoxColumn.HeaderText = "Tödlich";
-            this.lethalDataGridViewCheckBoxColumn.Name = "lethalDataGridViewCheckBoxColumn";
-            this.lethalDataGridViewCheckBoxColumn.ReadOnly = true;
-            // 
-            // curableDataGridViewCheckBoxColumn
-            // 
-            this.curableDataGridViewCheckBoxColumn.DataPropertyName = "Curable";
-            this.curableDataGridViewCheckBoxColumn.FillWeight = 50F;
-            this.curableDataGridViewCheckBoxColumn.HeaderText = "Heilbar";
-            this.curableDataGridViewCheckBoxColumn.Name = "curableDataGridViewCheckBoxColumn";
-            this.curableDataGridViewCheckBoxColumn.ReadOnly = true;
-            // 
             // illnessContextMenuStrip
             // 
             this.illnessContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -286,10 +218,6 @@
             this.cancelAllIllnessesMenuItem.Size = new System.Drawing.Size(213, 22);
             this.cancelAllIllnessesMenuItem.Text = "alle Krankheiten austragen";
             this.cancelAllIllnessesMenuItem.Click += new System.EventHandler(this.cancelAllIllnessesMenuItem_Click);
-            // 
-            // matchingIllnessBindingSource
-            // 
-            this.matchingIllnessBindingSource.DataSource = typeof(HealthRecords.Illness);
             // 
             // patientBtnTableLayoutPanel
             // 
@@ -477,11 +405,141 @@
             this.dataGridView3.Size = new System.Drawing.Size(564, 138);
             this.dataGridView3.TabIndex = 1;
             // 
+            // dataGridView4
+            // 
+            this.dataGridView4.AllowUserToAddRows = false;
+            this.dataGridView4.AllowUserToDeleteRows = false;
+            this.dataGridView4.AllowUserToResizeRows = false;
+            this.dataGridView4.AutoGenerateColumns = false;
+            this.dataGridView4.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView4.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView4.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.patientIDDataGridViewTextBoxColumn1,
+            this.firstNameDataGridViewTextBoxColumn1,
+            this.lastNameDataGridViewTextBoxColumn1,
+            this.birthdayDataGridViewTextBoxColumn1});
+            this.dataGridView4.ContextMenuStrip = this.patientContextMenuStrip;
+            this.dataGridView4.DataSource = this.matchingPatientBindingSource;
+            this.dataGridView4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView4.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridView4.GridColor = System.Drawing.SystemColors.Control;
+            this.dataGridView4.Location = new System.Drawing.Point(3, 187);
+            this.dataGridView4.MultiSelect = false;
+            this.dataGridView4.Name = "dataGridView4";
+            this.dataGridView4.ReadOnly = true;
+            this.dataGridView4.RowHeadersVisible = false;
+            this.dataGridView4.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView4.Size = new System.Drawing.Size(564, 139);
+            this.dataGridView4.TabIndex = 2;
+            // 
+            // patientContextMenuStrip
+            // 
+            this.patientContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cancelPatientMenuItem,
+            this.cancelAllPatientsMenuItem});
+            this.patientContextMenuStrip.Name = "contextMenuStrip1";
+            this.patientContextMenuStrip.Size = new System.Drawing.Size(201, 48);
+            // 
+            // cancelPatientMenuItem
+            // 
+            this.cancelPatientMenuItem.Name = "cancelPatientMenuItem";
+            this.cancelPatientMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.cancelPatientMenuItem.Text = "Patient austragen";
+            this.cancelPatientMenuItem.Click += new System.EventHandler(this.cancelPatientMenuItem_Click);
+            // 
+            // cancelAllPatientsMenuItem
+            // 
+            this.cancelAllPatientsMenuItem.Name = "cancelAllPatientsMenuItem";
+            this.cancelAllPatientsMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.cancelAllPatientsMenuItem.Text = "alle Patienten austragen";
+            this.cancelAllPatientsMenuItem.Click += new System.EventHandler(this.cancelAllPatientsMenuItem_Click);
+            // 
+            // patientBindingSource
+            // 
+            this.patientBindingSource.DataSource = typeof(HealthRecords.Patient);
+            // 
+            // matchingIllnessBindingSource
+            // 
+            this.matchingIllnessBindingSource.DataSource = typeof(HealthRecords.Illness);
+            // 
+            // illnessBindingSource
+            // 
+            this.illnessBindingSource.DataSource = typeof(HealthRecords.Illness);
+            // 
+            // matchingPatientBindingSource
+            // 
+            this.matchingPatientBindingSource.DataSource = typeof(HealthRecords.Patient);
+            // 
+            // patientIDDataGridViewTextBoxColumn
+            // 
+            this.patientIDDataGridViewTextBoxColumn.DataPropertyName = "PatientID";
+            this.patientIDDataGridViewTextBoxColumn.HeaderText = "ID Patient";
+            this.patientIDDataGridViewTextBoxColumn.Name = "patientIDDataGridViewTextBoxColumn";
+            this.patientIDDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // firstNameDataGridViewTextBoxColumn
+            // 
+            this.firstNameDataGridViewTextBoxColumn.DataPropertyName = "FirstName";
+            this.firstNameDataGridViewTextBoxColumn.HeaderText = "Vorname";
+            this.firstNameDataGridViewTextBoxColumn.Name = "firstNameDataGridViewTextBoxColumn";
+            // 
+            // lastNameDataGridViewTextBoxColumn
+            // 
+            this.lastNameDataGridViewTextBoxColumn.DataPropertyName = "LastName";
+            this.lastNameDataGridViewTextBoxColumn.HeaderText = "Nachname";
+            this.lastNameDataGridViewTextBoxColumn.Name = "lastNameDataGridViewTextBoxColumn";
+            // 
+            // birthdayDataGridViewTextBoxColumn
+            // 
+            this.birthdayDataGridViewTextBoxColumn.DataPropertyName = "Birthday";
+            this.birthdayDataGridViewTextBoxColumn.HeaderText = "geboren am";
+            this.birthdayDataGridViewTextBoxColumn.Name = "birthdayDataGridViewTextBoxColumn";
+            // 
+            // illnessIDDataGridViewTextBoxColumn
+            // 
+            this.illnessIDDataGridViewTextBoxColumn.DataPropertyName = "IllnessID";
+            this.illnessIDDataGridViewTextBoxColumn.FillWeight = 50F;
+            this.illnessIDDataGridViewTextBoxColumn.HeaderText = "ID Krankheit ";
+            this.illnessIDDataGridViewTextBoxColumn.Name = "illnessIDDataGridViewTextBoxColumn";
+            this.illnessIDDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // contagiousDataGridViewCheckBoxColumn
+            // 
+            this.contagiousDataGridViewCheckBoxColumn.DataPropertyName = "Contagious";
+            this.contagiousDataGridViewCheckBoxColumn.FillWeight = 50F;
+            this.contagiousDataGridViewCheckBoxColumn.HeaderText = "Ansteckend";
+            this.contagiousDataGridViewCheckBoxColumn.Name = "contagiousDataGridViewCheckBoxColumn";
+            this.contagiousDataGridViewCheckBoxColumn.ReadOnly = true;
+            // 
+            // lethalDataGridViewCheckBoxColumn
+            // 
+            this.lethalDataGridViewCheckBoxColumn.DataPropertyName = "Lethal";
+            this.lethalDataGridViewCheckBoxColumn.FillWeight = 50F;
+            this.lethalDataGridViewCheckBoxColumn.HeaderText = "Tödlich";
+            this.lethalDataGridViewCheckBoxColumn.Name = "lethalDataGridViewCheckBoxColumn";
+            this.lethalDataGridViewCheckBoxColumn.ReadOnly = true;
+            // 
+            // curableDataGridViewCheckBoxColumn
+            // 
+            this.curableDataGridViewCheckBoxColumn.DataPropertyName = "Curable";
+            this.curableDataGridViewCheckBoxColumn.FillWeight = 50F;
+            this.curableDataGridViewCheckBoxColumn.HeaderText = "Heilbar";
+            this.curableDataGridViewCheckBoxColumn.Name = "curableDataGridViewCheckBoxColumn";
+            this.curableDataGridViewCheckBoxColumn.ReadOnly = true;
+            // 
             // illnessIDDataGridViewTextBoxColumn1
             // 
             this.illnessIDDataGridViewTextBoxColumn1.DataPropertyName = "IllnessID";
             this.illnessIDDataGridViewTextBoxColumn1.FillWeight = 50F;
-            this.illnessIDDataGridViewTextBoxColumn1.HeaderText = "Krankheit ID";
+            this.illnessIDDataGridViewTextBoxColumn1.HeaderText = "ID Krankheit";
             this.illnessIDDataGridViewTextBoxColumn1.Name = "illnessIDDataGridViewTextBoxColumn1";
             this.illnessIDDataGridViewTextBoxColumn1.ReadOnly = true;
             // 
@@ -512,42 +570,10 @@
             this.curableDataGridViewCheckBoxColumn1.HeaderText = "Heilbar";
             this.curableDataGridViewCheckBoxColumn1.Name = "curableDataGridViewCheckBoxColumn1";
             // 
-            // illnessBindingSource
-            // 
-            this.illnessBindingSource.DataSource = typeof(HealthRecords.Illness);
-            // 
-            // dataGridView4
-            // 
-            this.dataGridView4.AllowUserToAddRows = false;
-            this.dataGridView4.AllowUserToDeleteRows = false;
-            this.dataGridView4.AllowUserToResizeRows = false;
-            this.dataGridView4.AutoGenerateColumns = false;
-            this.dataGridView4.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView4.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView4.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.patientIDDataGridViewTextBoxColumn1,
-            this.firstNameDataGridViewTextBoxColumn1,
-            this.lastNameDataGridViewTextBoxColumn1,
-            this.birthdayDataGridViewTextBoxColumn1});
-            this.dataGridView4.ContextMenuStrip = this.patientContextMenuStrip;
-            this.dataGridView4.DataSource = this.matchingPatientBindingSource;
-            this.dataGridView4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView4.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridView4.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridView4.Location = new System.Drawing.Point(3, 187);
-            this.dataGridView4.MultiSelect = false;
-            this.dataGridView4.Name = "dataGridView4";
-            this.dataGridView4.ReadOnly = true;
-            this.dataGridView4.RowHeadersVisible = false;
-            this.dataGridView4.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView4.Size = new System.Drawing.Size(564, 139);
-            this.dataGridView4.TabIndex = 2;
-            // 
             // patientIDDataGridViewTextBoxColumn1
             // 
             this.patientIDDataGridViewTextBoxColumn1.DataPropertyName = "PatientID";
-            this.patientIDDataGridViewTextBoxColumn1.HeaderText = "Patient ID";
+            this.patientIDDataGridViewTextBoxColumn1.HeaderText = "ID Patient";
             this.patientIDDataGridViewTextBoxColumn1.Name = "patientIDDataGridViewTextBoxColumn1";
             this.patientIDDataGridViewTextBoxColumn1.ReadOnly = true;
             // 
@@ -572,32 +598,6 @@
             this.birthdayDataGridViewTextBoxColumn1.Name = "birthdayDataGridViewTextBoxColumn1";
             this.birthdayDataGridViewTextBoxColumn1.ReadOnly = true;
             // 
-            // patientContextMenuStrip
-            // 
-            this.patientContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cancelPatientMenuItem,
-            this.cancelAllPatientsMenuItem});
-            this.patientContextMenuStrip.Name = "contextMenuStrip1";
-            this.patientContextMenuStrip.Size = new System.Drawing.Size(201, 48);
-            // 
-            // cancelPatientMenuItem
-            // 
-            this.cancelPatientMenuItem.Name = "cancelPatientMenuItem";
-            this.cancelPatientMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.cancelPatientMenuItem.Text = "Patient austragen";
-            this.cancelPatientMenuItem.Click += new System.EventHandler(this.cancelPatientMenuItem_Click);
-            // 
-            // cancelAllPatientsMenuItem
-            // 
-            this.cancelAllPatientsMenuItem.Name = "cancelAllPatientsMenuItem";
-            this.cancelAllPatientsMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.cancelAllPatientsMenuItem.Text = "alle Patienten austragen";
-            this.cancelAllPatientsMenuItem.Click += new System.EventHandler(this.cancelAllPatientsMenuItem_Click);
-            // 
-            // matchingPatientBindingSource
-            // 
-            this.matchingPatientBindingSource.DataSource = typeof(HealthRecords.Patient);
-            // 
             // OverviewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -612,18 +612,18 @@
             this.tabPage1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.patientBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.illnessContextMenuStrip.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.matchingIllnessBindingSource)).EndInit();
             this.patientBtnTableLayoutPanel.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.illnessBtnTableLayoutPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.illnessBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
             this.patientContextMenuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.patientBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.matchingIllnessBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.illnessBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.matchingPatientBindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -653,31 +653,31 @@
     private System.Windows.Forms.DataGridView dataGridView3;
     private System.Windows.Forms.BindingSource matchingIllnessBindingSource;
     private System.Windows.Forms.BindingSource matchingPatientBindingSource;
+    private System.Windows.Forms.DataGridView dataGridView4;
+    private System.Windows.Forms.ContextMenuStrip patientContextMenuStrip;
+    private System.Windows.Forms.ToolStripMenuItem cancelPatientMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem cancelAllPatientsMenuItem;
+    private System.Windows.Forms.ContextMenuStrip illnessContextMenuStrip;
+    private System.Windows.Forms.ToolStripMenuItem cancelIllnessMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem cancelAllIllnessesMenuItem;
+    private System.Windows.Forms.DataGridViewTextBoxColumn patientIDDataGridViewTextBoxColumn;
+    private System.Windows.Forms.DataGridViewTextBoxColumn firstNameDataGridViewTextBoxColumn;
+    private System.Windows.Forms.DataGridViewTextBoxColumn lastNameDataGridViewTextBoxColumn;
+    private System.Windows.Forms.DataGridViewTextBoxColumn birthdayDataGridViewTextBoxColumn;
     private System.Windows.Forms.DataGridViewTextBoxColumn illnessIDDataGridViewTextBoxColumn;
     private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
     private System.Windows.Forms.DataGridViewCheckBoxColumn contagiousDataGridViewCheckBoxColumn;
     private System.Windows.Forms.DataGridViewCheckBoxColumn lethalDataGridViewCheckBoxColumn;
     private System.Windows.Forms.DataGridViewCheckBoxColumn curableDataGridViewCheckBoxColumn;
-    private System.Windows.Forms.DataGridViewTextBoxColumn patientIDDataGridViewTextBoxColumn;
-    private System.Windows.Forms.DataGridViewTextBoxColumn firstNameDataGridViewTextBoxColumn;
-    private System.Windows.Forms.DataGridViewTextBoxColumn lastNameDataGridViewTextBoxColumn;
-    private System.Windows.Forms.DataGridViewTextBoxColumn birthdayDataGridViewTextBoxColumn;
-    private System.Windows.Forms.DataGridView dataGridView4;
-    private System.Windows.Forms.DataGridViewTextBoxColumn patientIDDataGridViewTextBoxColumn1;
-    private System.Windows.Forms.DataGridViewTextBoxColumn firstNameDataGridViewTextBoxColumn1;
-    private System.Windows.Forms.DataGridViewTextBoxColumn lastNameDataGridViewTextBoxColumn1;
-    private System.Windows.Forms.DataGridViewTextBoxColumn birthdayDataGridViewTextBoxColumn1;
-    private System.Windows.Forms.ContextMenuStrip patientContextMenuStrip;
-    private System.Windows.Forms.ToolStripMenuItem cancelPatientMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem cancelAllPatientsMenuItem;
     private System.Windows.Forms.DataGridViewTextBoxColumn illnessIDDataGridViewTextBoxColumn1;
     private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn1;
     private System.Windows.Forms.DataGridViewCheckBoxColumn contagiousDataGridViewCheckBoxColumn1;
     private System.Windows.Forms.DataGridViewCheckBoxColumn lethalDataGridViewCheckBoxColumn1;
     private System.Windows.Forms.DataGridViewCheckBoxColumn curableDataGridViewCheckBoxColumn1;
-    private System.Windows.Forms.ContextMenuStrip illnessContextMenuStrip;
-    private System.Windows.Forms.ToolStripMenuItem cancelIllnessMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem cancelAllIllnessesMenuItem;
+    private System.Windows.Forms.DataGridViewTextBoxColumn patientIDDataGridViewTextBoxColumn1;
+    private System.Windows.Forms.DataGridViewTextBoxColumn firstNameDataGridViewTextBoxColumn1;
+    private System.Windows.Forms.DataGridViewTextBoxColumn lastNameDataGridViewTextBoxColumn1;
+    private System.Windows.Forms.DataGridViewTextBoxColumn birthdayDataGridViewTextBoxColumn1;
   }
 }
 

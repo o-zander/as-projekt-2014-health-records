@@ -105,22 +105,22 @@ namespace HealthRecords
 
         public Illness[] GetPatientIllnesses(Patient patient, int pager, int number)
         {
-            throw new NotImplementedException();
+            return datenhaltung.GetPatientIllnessesData(patient, pager, number);
         }
 
         public Patient[] GetIllnessPatients(Illness illness, int pager, int number)
         {
-            throw new NotImplementedException();
+            return datenhaltung.GetIllnessPatientsData(illness, pager, number);
         }
 
         public int GetPatientIllnessesCount(Patient patient)
         {
-            throw new NotImplementedException();
+            return datenhaltung.GetPatientIllnessesCountData(patient);
         }
 
         public int GetIllnessPatientsCount(Illness illness)
         {
-            throw new NotImplementedException();
+            return datenhaltung.GetIllnessPatientsCountData(illness);
         }
     }
 }

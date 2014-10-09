@@ -42,6 +42,7 @@ namespace HealthRecords
             }
         }
 
+        // load items
         public Patient[] GetPatientsData()
         {
             throw new NotImplementedException();
@@ -194,6 +195,7 @@ namespace HealthRecords
             throw new NotImplementedException();
         }
 
+        // create items
         public bool CreatePatientData(Patient patient)
         {
             //Patient patient1 = new Patient(){ FirstName="Max", LastName="Mustermann", Birthday=DateTime.Today, PatientID=1}
@@ -257,6 +259,7 @@ namespace HealthRecords
             throw new NotImplementedException();
         }
 
+        // update items
         public bool UpdatePatientData(Patient patient)
         {
             if (File.Exists("Patients.xml"))
@@ -285,19 +288,10 @@ namespace HealthRecords
 
         public bool UpdateIllnessData(Illness illness)
         {
-            return true;
-        }
-
-        public bool LinkPatientIllnessData(Patient patient, Illness illness)
-        {
-            return true;
-        }
-
-        public bool UnLinkPatientIllness(Patient patient, Illness illness)
-        {
             throw new NotImplementedException();
         }
 
+        // delete items
         public bool DeletePatientData(Patient patient)
         {
             if (File.Exists("Patients.xml"))
@@ -321,9 +315,21 @@ namespace HealthRecords
 
         public bool DeleteIllnessData(Illness illness)
         {
-            return true;
+            throw new NotImplementedException();
         }
 
+        // add referenz
+        public bool LinkPatientIllnessData(Patient patient, Illness illness)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UnLinkPatientIllness(Patient patient, Illness illness)
+        {
+            throw new NotImplementedException();
+        }
+
+        // load referenz
         public Illness[] GetPatientIllnessesData(Patient patient)
         {
             throw new NotImplementedException();
@@ -333,15 +339,36 @@ namespace HealthRecords
         {
             throw new NotImplementedException();
         }
+
+        public Illness[] GetPatientIllnessesData(Patient patient, int pager, int number)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Patient[] GetIllnessPatientsData(Illness illness, int pager, int number)
+        {
+            throw new NotImplementedException();
+        }
+
+        // get counts
         public int GetPatientsCountData()
         {
             throw new NotImplementedException();
         }
+
         public int GetIllnessesCountData()
         {
             throw new NotImplementedException();
         }
 
-        
+        public int GetPatientIllnessesCountData(Patient patient)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetIllnessPatientsCountData(Illness illness)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

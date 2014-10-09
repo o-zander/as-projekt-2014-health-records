@@ -7,7 +7,6 @@ namespace HealthRecords
 {
     interface IFachkonzept
     {
-
         // load items
         Patient[] GetPatients();
         Illness[] GetIllnesses();
@@ -43,6 +42,5 @@ namespace HealthRecords
         int GetIllnessesCount();
         int GetPatientIllnessesCount(Patient patient);
         int GetIllnessPatientsCount(Illness illness);
-
     }
 }
