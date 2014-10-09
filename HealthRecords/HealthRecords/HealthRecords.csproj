@@ -80,21 +80,6 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Insight.Database">
-      <HintPath>..\packages\Insight.Database.Core.4.2.10\lib\NET40\Insight.Database.dll</HintPath>
-    </Reference>
-    <Reference Include="Insight.Database.Configuration">
-      <HintPath>..\packages\Insight.Database.4.2.10\lib\NET40\Insight.Database.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Insight.Database.Providers.Default">
-      <HintPath>..\packages\Insight.Database.4.2.10\lib\NET40\Insight.Database.Providers.Default.dll</HintPath>
-    </Reference>
-    <Reference Include="NDbUnit.Core">
-      <HintPath>..\packages\NDbUnit.Core.1.6.8.0\lib\Net35\NDbUnit.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="NDbUnit.SqlLite">
-      <HintPath>..\packages\NDbUnit.SqlLite.1.6.8.0\lib\Net35\NDbUnit.SqlLite.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -118,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CachedFachkonzept.cs" />
+    <Compile Include="ConIO.cs" />
     <Compile Include="DatenhaltungXML.cs" />
     <Compile Include="Fachkonzept.cs" />
     <Compile Include="Form1.cs">
@@ -130,11 +116,11 @@
     <Compile Include="IDatenhaltung.cs" />
     <Compile Include="IFachkonzept.cs" />
     <Compile Include="Illness.cs" />
-    <Compile Include="PaediatricianFachkonzept.cs" />
     <Compile Include="Patient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLiteDatenhaltung.cs" />
+    <Compile Include="TestFachkonzept.cs" />
     <Compile Include="TUI.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

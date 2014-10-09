@@ -278,14 +278,14 @@
             this.cancelIllnessMenuItem.Name = "cancelIllnessMenuItem";
             this.cancelIllnessMenuItem.Size = new System.Drawing.Size(213, 22);
             this.cancelIllnessMenuItem.Text = "Krankheit austragen";
-            this.cancelIllnessMenuItem.Click += new System.EventHandler(this.cancelIllnessMenuItem_Click);
+            //this.cancelIllnessMenuItem.Click += new System.EventHandler(this.cancelIllnessMenuItem_Click);
             // 
             // cancelAllIllnessesMenuItem
             // 
             this.cancelAllIllnessesMenuItem.Name = "cancelAllIllnessesMenuItem";
             this.cancelAllIllnessesMenuItem.Size = new System.Drawing.Size(213, 22);
             this.cancelAllIllnessesMenuItem.Text = "alle Krankheiten austragen";
-            this.cancelAllIllnessesMenuItem.Click += new System.EventHandler(this.cancelAllIllnessesMenuItem_Click);
+            //this.cancelAllIllnessesMenuItem.Click += new System.EventHandler(this.cancelAllIllnessesMenuItem_Click);
             // 
             // matchingIllnessBindingSource
             // 
@@ -585,14 +585,14 @@
             this.cancelPatientMenuItem.Name = "cancelPatientMenuItem";
             this.cancelPatientMenuItem.Size = new System.Drawing.Size(200, 22);
             this.cancelPatientMenuItem.Text = "Patient austragen";
-            this.cancelPatientMenuItem.Click += new System.EventHandler(this.cancelPatientMenuItem_Click);
+            //this.cancelPatientMenuItem.Click += new System.EventHandler(this.cancelPatientMenuItem_Click);
             // 
             // cancelAllPatientsMenuItem
             // 
             this.cancelAllPatientsMenuItem.Name = "cancelAllPatientsMenuItem";
             this.cancelAllPatientsMenuItem.Size = new System.Drawing.Size(200, 22);
             this.cancelAllPatientsMenuItem.Text = "alle Patienten austragen";
-            this.cancelAllPatientsMenuItem.Click += new System.EventHandler(this.cancelAllPatientsMenuItem_Click);
+            //this.cancelAllPatientsMenuItem.Click += new System.EventHandler(this.cancelAllPatientsMenuItem_Click);
             // 
             // matchingPatientBindingSource
             // 

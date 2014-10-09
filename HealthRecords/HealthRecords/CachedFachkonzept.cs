@@ -152,5 +152,26 @@ namespace HealthRecords
         {
             return this.Datenhaltung.GetIllnessesCountData();
         }
+
+
+        public Illness[] GetPatientIllnesses(Patient patient, int pager, int number)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Patient[] GetIllnessPatients(Illness illness, int pager, int number)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetPatientIllnessesCount(Patient patient)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetIllnessPatientsCount(Illness illness)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

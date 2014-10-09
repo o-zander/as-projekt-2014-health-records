@@ -12,15 +12,17 @@ namespace HealthRecords
         [STAThread]
         static void Main()
         {
-            switch (Properties.Settings.Default.UI)
+            //switch (Properties.Settings.Default.UI)
+            switch ("TUI")
             {
                 case "GUI":
                     //GUI newGUI = new GUI(new Fachkonzept(new DatenhaltungXML()));
-                    GUI newGUI = new GUI(new Fachkonzept(new SQLiteDatenhaltung()));
+                    //GUI newGUI = new GUI(new Fachkonzept(new SQLiteDatenhaltung()));
                     break;
                 case "TUI":
                     //TUI newTUI = new TUI(new Fachkonzept(new DatenhaltungXML()));
-                    TUI newTUI = new TUI(new Fachkonzept(new SQLiteDatenhaltung()));
+                    TUI newTUI = new TUI(new TestFachkonzept(new SQLiteDatenhaltung()));
+                    newTUI.run();
                     break;
                 default:
                     throw new Exception("Es konnte kein Benutzerschnittstelle gefunden werden.");

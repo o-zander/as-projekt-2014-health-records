@@ -7,6 +7,7 @@ namespace HealthRecords
 {
     class Fachkonzept : IFachkonzept
     {
+
         private IDatenhaltung datenhaltung;
 
         public Fachkonzept(IDatenhaltung datenhaltung)
@@ -100,6 +101,26 @@ namespace HealthRecords
         public int GetIllnessesCount()
         {
             return datenhaltung.GetIllnessesCountData();
+        }
+
+        public Illness[] GetPatientIllnesses(Patient patient, int pager, int number)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Patient[] GetIllnessPatients(Illness illness, int pager, int number)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetPatientIllnessesCount(Patient patient)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetIllnessPatientsCount(Illness illness)
+        {
+            throw new NotImplementedException();
         }
     }
 }
