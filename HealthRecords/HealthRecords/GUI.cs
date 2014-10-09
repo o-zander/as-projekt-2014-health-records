@@ -13,6 +13,6 @@ namespace HealthRecords
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new OverviewForm(fachkonzept));
-        }        
+        }
     }
 }

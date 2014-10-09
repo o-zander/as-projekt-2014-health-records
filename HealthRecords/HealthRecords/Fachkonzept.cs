@@ -24,14 +24,14 @@ namespace HealthRecords
             return datenhaltung.GetIllnessesData();
         }
 
-        public Patient[] GetPatients(int setSize, long lastID)
+        public Patient[] GetPatients(int page, int number)
         {
-            return datenhaltung.GetPatientsData(setSize, lastID);
+            return datenhaltung.GetPatientsData(page, number);
         }
 
-        public Illness[] GetIllnesses(int setSize, long lastID)
+        public Illness[] GetIllnesses(int page, int number)
         {
-            return datenhaltung.GetIllnessesData(setSize, lastID);
+            return datenhaltung.GetIllnessesData(page, number);
         }
 
         public Patient GetPatient(long patientID)
@@ -71,7 +71,7 @@ namespace HealthRecords
 
         public bool UnLinkPatientIllness(Patient patient, Illness illness)
         {
-            throw new NotImplementedException();
+            return datenhaltung.UnLinkPatientIllness(patient, illness);
         }
 
         public bool DeletePatient(Patient patient)
@@ -92,6 +92,14 @@ namespace HealthRecords
         public Patient[] GetIllnessPatients(Illness illness)
         {
             return datenhaltung.GetIllnessPatientsData(illness);
+        }
+        public int GetPatientsCount()
+        {
+            return datenhaltung.GetPatientsCountData();
+        }
+        public int GetIllnessesCount()
+        {
+            return datenhaltung.GetIllnessesCountData();
         }
     }
 }
