@@ -318,8 +318,8 @@ namespace HealthRecords
             {
                 executeLinking();
                 tabControl1.SelectedTab = tabControl1.TabPages[1];
-                dataGridView3.SelectionMode = DataGridViewSelectionMode.CellSelect;
-                dataGridView3.ReadOnly = false;
+                dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                dataGridView1.ReadOnly = false;
             }
             else
             {
@@ -338,8 +338,8 @@ namespace HealthRecords
             {
                 executeLinking();
                 tabControl1.SelectedTab = tabControl1.TabPages[0];
-                dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
-                dataGridView1.ReadOnly = false;
+                dataGridView3.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                dataGridView3.ReadOnly = false;
             }
             else
             {
