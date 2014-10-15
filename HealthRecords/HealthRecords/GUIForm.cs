@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace HealthRecords
 {
-    partial class OverviewForm : Form
+    partial class GUIForm : Form
     {
         private IFachkonzept fachkonzept;
         private List<Patient> patients = new List<Patient>();
@@ -19,7 +19,7 @@ namespace HealthRecords
         private bool linkingActive = false;
         private bool lockTab = false;
 
-        public OverviewForm(IFachkonzept fachkonzept)
+        public GUIForm(IFachkonzept fachkonzept)
         {
             this.fachkonzept = fachkonzept;
             InitializeComponent();

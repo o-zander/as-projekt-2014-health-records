@@ -12,7 +12,7 @@ namespace HealthRecords
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new OverviewForm(fachkonzept));
+            Application.Run(new GUIForm(fachkonzept));
         }
     }
 }
