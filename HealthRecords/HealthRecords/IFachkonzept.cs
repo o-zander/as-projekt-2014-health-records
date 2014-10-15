@@ -42,5 +42,8 @@ namespace HealthRecords
         int GetIllnessesCount();
         int GetPatientIllnessesCount(Patient patient);
         int GetIllnessPatientsCount(Illness illness);
+
+        // error handling
+        string GetLastError();
     }
 }
