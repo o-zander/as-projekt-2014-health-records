@@ -12,6 +12,7 @@ namespace HealthRecords
         [STAThread]
         static void Main()
         {
+            
             switch (Properties.Settings.Default.UI)
             //switch ("TUI")
             {

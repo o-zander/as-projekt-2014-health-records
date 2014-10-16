@@ -5,14 +5,13 @@ using System.Text;
 
 namespace HealthRecords
 {
-    class Fachkonzept : IFachkonzept
+    class Fachkonzept : BaseFachkonzept
     {
 
-        private IDatenhaltung datenhaltung;
-
         public Fachkonzept(IDatenhaltung datenhaltung)
+            : base(datenhaltung)
         {
-            this.datenhaltung = datenhaltung;
+
         }
 
         public Patient[] GetPatients()

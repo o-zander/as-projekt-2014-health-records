@@ -122,6 +122,7 @@
     <Compile Include="SQLiteDatenhaltung.cs" />
     <Compile Include="TestFachkonzept.cs" />
     <Compile Include="TUI.cs" />
+    <Compile Include="ValidateFachkonzept.cs" />
     <EmbeddedResource Include="GUIForm.resx">
       <DependentUpon>GUIForm.cs</DependentUpon>
     </EmbeddedResource>
