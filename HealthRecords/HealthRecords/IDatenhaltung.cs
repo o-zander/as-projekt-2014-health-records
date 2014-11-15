@@ -5,8 +5,10 @@ using System.Text;
 
 namespace HealthRecords
 {
+
     interface IDatenhaltung
     {
+
         // load items
         Patient[] GetPatientsData();
         Illness[] GetIllnessesData();
@@ -42,5 +44,10 @@ namespace HealthRecords
         int GetIllnessesCountData();
         int GetPatientIllnessesCountData(Patient patient);
         int GetIllnessPatientsCountData(Illness illness);
+
+        // error handling
+        ExceptionMessage GetLastErrorData();     
+
     }
+
 }

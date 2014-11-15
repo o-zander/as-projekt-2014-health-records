@@ -105,6 +105,7 @@
     <Compile Include="CachedFachkonzept.cs" />
     <Compile Include="ConIO.cs" />
     <Compile Include="DatenhaltungXML.cs" />
+    <Compile Include="ExceptionMessage.cs" />
     <Compile Include="Fachkonzept.cs" />
     <Compile Include="GUIForm.cs">
       <SubType>Form</SubType>

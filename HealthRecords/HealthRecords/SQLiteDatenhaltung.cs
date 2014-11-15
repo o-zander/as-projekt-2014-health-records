@@ -5,10 +5,13 @@ using System.Data.SQLite;
 
 namespace HealthRecords
 {
+
     class SQLiteDatenhaltung : IDatenhaltung
     {
-        string Database { get; set; }
-        SQLiteConnection Connection { get; set; }
+
+        private string Database { get; set; }
+        private SQLiteConnection Connection { get; set; }
+        private ExceptionMessage LastError { get; set; }
 
         private string[] Tables = {
             @"T_Patients (
@@ -43,10 +46,11 @@ namespace HealthRecords
         {
             foreach (string table in this.Tables)
             {
-                new SQLiteCommand(
-                    String.Format("CREATE TABLE IF NOT EXISTS {0}", table),
-                    this.Connection
-                ).ExecuteNonQuery();
+                this.ExecuteNonQuery(
+                    new SQLiteCommand(
+                        String.Format("CREATE TABLE IF NOT EXISTS {0}", table),
+                        this.Connection)
+                );
             }
         }
 
@@ -64,77 +68,144 @@ namespace HealthRecords
             this.InitDatabase();
         }
 
+        private int ParseScalarToInt(object result)
+        {
+            return Int32.Parse(result.ToString());
+        }
+
+        private long ParseScalarToLong(object result)
+        {
+            return Int64.Parse(result.ToString());
+        }
+
+        private int ExecuteNonQuery(SQLiteCommand command) {
+            try
+            {
+                return command.ExecuteNonQuery();
+            }
+            catch (SQLiteException e)
+            {
+                this.LastError = new ExceptionMessage(1, e);
+                return 0;
+            }
+        }
+
+        private SQLiteDataReader ExecuteReader(SQLiteCommand command)
+        {
+            try
+            {
+                return command.ExecuteReader();
+            }
+            catch (SQLiteException e)
+            {
+                this.LastError = new ExceptionMessage(1, e);
+                return null;
+            }
+        }
+
+        private object ExecuteScalar(SQLiteCommand command)
+        {
+            try
+            {
+                return command.ExecuteScalar();
+            }
+            catch (SQLiteException e)
+            {
+                this.LastError = new ExceptionMessage(1, e);
+                return null;
+            }
+        }
+
         private SQLiteDataReader Select(string table)
         {
-            return new SQLiteCommand(
-                String.Format("SELECT * FROM {0}", table),
-                this.Connection
-            ).ExecuteReader();
+            return this.ExecuteReader(
+                new SQLiteCommand(
+                    String.Format("SELECT * FROM {0}", table),
+                    this.Connection
+                )
+            );
         }
 
         private SQLiteDataReader Select(string table, string where)
         {
-            return new SQLiteCommand(
-                String.Format("SELECT * FROM {0} WHERE {1}", table, where),
-                this.Connection
-            ).ExecuteReader();
+            return this.ExecuteReader(
+                new SQLiteCommand(
+                    String.Format("SELECT * FROM {0} WHERE {1}", table, where),
+                    this.Connection
+                )
+            );
         }
 
         private SQLiteDataReader Select(string table, string[] fields, string where)
         {
-            return new SQLiteCommand(
-                String.Format("SELECT {0} FROM {1} WHERE {2}", String.Join(",", fields), table, where),
-                this.Connection
-            ).ExecuteReader();
+            return this.ExecuteReader(
+                new SQLiteCommand(
+                    String.Format("SELECT {0} FROM {1} WHERE {2}", String.Join(",", fields), table, where),
+                    this.Connection
+                )
+            );
         }
 
         private SQLiteDataReader Select(string table, string[] fields, string where, string limit)
         {
-            return new SQLiteCommand(
-                String.Format("SELECT {0} FROM {1} WHERE {2} LIMIT {3}", String.Join(",", fields), table, where, limit),
-                this.Connection
-            ).ExecuteReader();
+            return this.ExecuteReader(
+                new SQLiteCommand(
+                    String.Format("SELECT {0} FROM {1} WHERE {2} LIMIT {3}", String.Join(",", fields), table, where, limit),
+                    this.Connection
+                )
+            );
         }
 
         private SQLiteDataReader Select(string table, string[] fields, string innerJoin, string joinOn, string where)
         {
-            return new SQLiteCommand(
-                String.Format("SELECT {0} FROM {1} INNER JOIN {2} ON {3} WHERE {4}", String.Join(",", fields), table, innerJoin, joinOn, where),
-                this.Connection
-            ).ExecuteReader();
+            return this.ExecuteReader(
+                new SQLiteCommand(
+                    String.Format("SELECT {0} FROM {1} INNER JOIN {2} ON {3} WHERE {4}", String.Join(",", fields), table, innerJoin, joinOn, where),
+                    this.Connection
+                )
+            );
         }
 
         private SQLiteDataReader Select(string table, string[] fields, string innerJoin, string joinOn, string where, string limit)
         {
-            return new SQLiteCommand(
-                String.Format("SELECT {0} FROM {1} INNER JOIN {2} ON {3} WHERE {4} LIMIT {5}", String.Join(",", fields), table, innerJoin, joinOn, where, limit),
-                this.Connection
-            ).ExecuteReader();
+            return this.ExecuteReader(
+                new SQLiteCommand(
+                    String.Format("SELECT {0} FROM {1} INNER JOIN {2} ON {3} WHERE {4} LIMIT {5}", String.Join(",", fields), table, innerJoin, joinOn, where, limit),
+                    this.Connection
+                )
+            );
         }
 
         private long GetLastInsertRowID()
         {
-            return (long)new SQLiteCommand("SELECT last_insert_rowid()", this.Connection).ExecuteScalar();
+            return this.ParseScalarToLong(
+                this.ExecuteScalar(
+                    new SQLiteCommand(
+                        "SELECT last_insert_rowid()",
+                        this.Connection
+                    )
+                )
+            );
         }
 
         private Patient GetPatientFromReader(SQLiteDataReader reader)
         {
             return new Patient(
-                (long)reader["patientID"],
-                (string)reader["firstName"],
-                (string)reader["lastName"],
-                (DateTime)reader["birthday"]
+                (long) reader["patientID"],
+                (string) reader["firstName"],
+                (string) reader["lastName"],
+                (DateTime) reader["birthday"]
             );
         }
 
         private Illness GetIllnessFromReader(SQLiteDataReader reader)
         {
             return new Illness(
-                (long)reader["illnessID"],
-                (string)reader["name"],
-                (bool)reader["contagious"],
-                (bool)reader["lethal"],
-                (bool)reader["curable"]
+                (long) reader["illnessID"],
+                (string) reader["name"],
+                (bool) reader["contagious"],
+                (bool) reader["lethal"],
+                (bool) reader["curable"]
             );
         }
 
@@ -143,7 +214,7 @@ namespace HealthRecords
             using (SQLiteDataReader reader = this.Select("T_Patients"))
             {
                 List<Patient> patients = new List<Patient>();
-                while (reader.Read())
+                while (reader != null && reader.Read())
                 {
                     patients.Add(this.GetPatientFromReader(reader));
                 }
@@ -156,7 +227,7 @@ namespace HealthRecords
             using (SQLiteDataReader reader = this.Select("T_Illnesses"))
             {
                 List<Illness> illnesses = new List<Illness>();
-                while (reader.Read())
+                while (reader != null && reader.Read())
                 {
                     illnesses.Add(this.GetIllnessFromReader(reader));
                 }
@@ -169,7 +240,7 @@ namespace HealthRecords
             using (SQLiteDataReader reader = this.Select("T_Patients", new string[1] { "*" }, "1", String.Format("{0}, {1}", page * pageSize, pageSize)))
             {
                 List<Patient> patients = new List<Patient>();
-                while (reader.Read())
+                while (reader != null && reader.Read())
                 {
                     patients.Add(this.GetPatientFromReader(reader));
                 }
@@ -182,7 +253,7 @@ namespace HealthRecords
             using (SQLiteDataReader reader = this.Select("T_Illnesses", new string[1] { "*" }, "1", String.Format("{0}, {1}", page * pageSize, pageSize)))
             {
                 List<Illness> illnesses = new List<Illness>();
-                while (reader.Read())
+                while (reader != null && reader.Read())
                 {
                     illnesses.Add(this.GetIllnessFromReader(reader));
                 }
@@ -194,7 +265,7 @@ namespace HealthRecords
         {
             using (SQLiteDataReader reader = this.Select("T_Patients", String.Format("patientID = {0}", patientID)))
             {
-                return reader.Read() ? this.GetPatientFromReader(reader) : null;
+                return reader != null && reader.Read() ? this.GetPatientFromReader(reader) : null;
             }
         }
 
@@ -202,7 +273,7 @@ namespace HealthRecords
         {
             using (SQLiteDataReader reader = this.Select("T_Illnesses", String.Format("illnessID = {0}", illnessID)))
             {
-                return reader.Read() ? this.GetIllnessFromReader(reader) : null;
+                return reader != null && reader.Read() ? this.GetIllnessFromReader(reader) : null;
             }
         }
 
@@ -218,7 +289,7 @@ namespace HealthRecords
                 command.Parameters.Add("@firstName", DbType.String).Value = patient.FirstName;
                 command.Parameters.Add("@lastName", DbType.String).Value = patient.LastName;
                 command.Parameters.Add("@birthday", DbType.DateTime).Value = patient.Birthday;
-                return command.ExecuteNonQuery() == 1 ? (patient.PatientID = this.GetLastInsertRowID()) > 0 : false;
+                return this.ExecuteNonQuery(command) == 1 ? (patient.PatientID = this.GetLastInsertRowID()) > 0 : false;
             }
             else
             {
@@ -239,7 +310,7 @@ namespace HealthRecords
                 command.Parameters.Add("@contagious", DbType.Boolean).Value = illness.Contagious;
                 command.Parameters.Add("@lethal", DbType.Boolean).Value = illness.Lethal;
                 command.Parameters.Add("@curable", DbType.Boolean).Value = illness.Curable;
-                return command.ExecuteNonQuery() == 1 ? (illness.IllnessID = this.GetLastInsertRowID()) > 0 : false;
+                return this.ExecuteNonQuery(command) == 1 ? (illness.IllnessID = this.GetLastInsertRowID()) > 0 : false;
             }
             else
             {
@@ -261,7 +332,7 @@ namespace HealthRecords
                 command.Parameters.Add("@lastName", DbType.String).Value = patient.LastName;
                 command.Parameters.Add("@birthday", DbType.DateTime).Value = patient.Birthday;
                 command.Parameters.Add("@patientID", DbType.Int64).Value = patient.PatientID;
-                return command.ExecuteNonQuery() == 1;
+                return this.ExecuteNonQuery(command) == 1;
             }
             else
             {
@@ -284,7 +355,7 @@ namespace HealthRecords
                 command.Parameters.Add("@lethal", DbType.Boolean).Value = illness.Lethal;
                 command.Parameters.Add("@curable", DbType.Boolean).Value = illness.Curable;
                 command.Parameters.Add("@illnessID", DbType.Int64).Value = illness.IllnessID;
-                return command.ExecuteNonQuery() == 1;
+                return this.ExecuteNonQuery(command) == 1;
             }
             else
             {
@@ -312,7 +383,7 @@ namespace HealthRecords
                 );
                 command.Parameters.Add("@patientID", DbType.Int64).Value = patient.PatientID;
                 command.Parameters.Add("@illnessID", DbType.Int64).Value = illness.IllnessID;
-                return command.ExecuteNonQuery() == 1;
+                return this.ExecuteNonQuery(command) == 1;
             }
             else
             {
@@ -331,7 +402,7 @@ namespace HealthRecords
                 );
                 command.Parameters.Add("@patientID", DbType.Int64).Value = patient.PatientID;
                 command.Parameters.Add("@illnessID", DbType.Int64).Value = illness.IllnessID;
-                return command.ExecuteNonQuery() == 1;
+                return this.ExecuteNonQuery(command) == 1;
             }
             else
             {
@@ -348,7 +419,7 @@ namespace HealthRecords
                     this.Connection
                 );
                 command.Parameters.Add("@patientID", DbType.Int64).Value = patient.PatientID;
-                return command.ExecuteNonQuery() == 1 ? (patient.PatientID = 0) == 0 : false;
+                return this.ExecuteNonQuery(command) == 1 ? (patient.PatientID = 0) == 0 : false;
             }
             else
             {
@@ -365,7 +436,7 @@ namespace HealthRecords
                     this.Connection
                 );
                 command.Parameters.Add("@illnessID", DbType.Int64).Value = illness.IllnessID;
-                return command.ExecuteNonQuery() == 1 ? (illness.IllnessID = 0) == 0 : false;
+                return this.ExecuteNonQuery(command) == 1 ? (illness.IllnessID = 0) == 0 : false;
             }
             else
             {
@@ -386,7 +457,7 @@ namespace HealthRecords
                       )
                 {
                     List<Illness> illnesses = new List<Illness>();
-                    while (reader.Read())
+                    while (reader != null && reader.Read())
                     {
                         illnesses.Add(this.GetIllnessFromReader(reader));
                     }
@@ -413,7 +484,7 @@ namespace HealthRecords
                       )
                 {
                     List<Patient> patients = new List<Patient>();
-                    while (reader.Read())
+                    while (reader != null && reader.Read())
                     {
                         patients.Add(this.GetPatientFromReader(reader));
                     }
@@ -439,7 +510,7 @@ namespace HealthRecords
                       )
                 {
                     List<Illness> illnesses = new List<Illness>();
-                    while (reader.Read())
+                    while (reader != null && reader.Read())
                     {
                         illnesses.Add(this.GetIllnessFromReader(reader));
                     }
@@ -466,7 +537,7 @@ namespace HealthRecords
                       )
                 {
                     List<Patient> patients = new List<Patient>();
-                    while (reader.Read())
+                    while (reader != null && reader.Read())
                     {
                         patients.Add(this.GetPatientFromReader(reader));
                     }
@@ -496,7 +567,7 @@ namespace HealthRecords
             {
                 SQLiteCommand command = new SQLiteCommand("SELECT COUNT(*) FROM T_PatientsIllnesses WHERE patientID = @patientID", this.Connection);
                 command.Parameters.Add("@patientID", DbType.Int64).Value = patient.PatientID;
-                return Int32.Parse(command.ExecuteScalar().ToString());    
+                return this.ParseScalarToInt(command.ExecuteScalar());
             }
             else
             {
@@ -517,5 +588,12 @@ namespace HealthRecords
                 return 0;
             }  
         }
+
+        public ExceptionMessage GetLastErrorData()
+        {
+            return this.LastError;
+        }
+
     }
+
 }
