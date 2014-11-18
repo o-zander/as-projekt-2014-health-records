@@ -370,5 +370,11 @@ namespace HealthRecords
         {
             throw new NotImplementedException();
         }
+
+        public ExceptionMessage GetLastErrorData()
+        {
+            throw new NotImplementedException();
+        }
+        
     }
 }

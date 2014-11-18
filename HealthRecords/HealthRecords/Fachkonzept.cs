@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HealthRecords
 {
-    class Fachkonzept : BaseFachkonzept
+    class Fachkonzept : BaseFachkonzept, IFachkonzept
     {
 
         public Fachkonzept(IDatenhaltung datenhaltung)
@@ -78,11 +78,12 @@ namespace HealthRecords
         {
             return datenhaltung.DeletePatientData(patient);
         }
-
-        public bool DeleteIllness(Illness illness)
+        /*
+        public override bool DeleteIllness(Illness illness)
         {
             return datenhaltung.DeleteIllnessData(illness);
         }
+         */
 
         public Illness[] GetPatientIllnesses(Patient patient)
         {
@@ -120,6 +121,11 @@ namespace HealthRecords
         public int GetIllnessPatientsCount(Illness illness)
         {
             return datenhaltung.GetIllnessPatientsCountData(illness);
+        }
+
+        public string GetLastError()
+        {
+            return datenhaltung.GetLastErrorData().Exception.Message;       
         }
     }
 }

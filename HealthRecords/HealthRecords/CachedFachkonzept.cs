@@ -173,5 +173,9 @@ namespace HealthRecords
         {
             throw new NotImplementedException();
         }
+        public string GetLastError()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

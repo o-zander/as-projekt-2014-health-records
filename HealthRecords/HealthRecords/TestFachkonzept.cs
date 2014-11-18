@@ -182,6 +182,10 @@ namespace HealthRecords
         {
             return 11;
         }
-
+        
+        public string GetLastError()
+        {
+            return "Test";
+        }
     }
 }

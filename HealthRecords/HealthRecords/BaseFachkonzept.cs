@@ -6,7 +6,7 @@ using System.Text;
 namespace HealthRecords
 {
 
-    abstract class BaseFachkonzept : IFachkonzept
+    abstract class BaseFachkonzept
     {
 
         protected IDatenhaltung datenhaltung;
@@ -27,8 +27,8 @@ namespace HealthRecords
                 // TODO create exception
             }
             return false;
-        }
-
+        }    
+   
     }
 
 }
